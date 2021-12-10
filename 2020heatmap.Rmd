@@ -1,0 +1,70 @@
+---
+title: "2020 hear map"
+author: "Yiming Li"
+date: "12/6/2021"
+output: html_document
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(gganimate)
+library(lubridate)
+library(plotly)
+```
+
+
+```{r, include=FALSE}
+NYPD_2020 = 
+  read.csv("/Users/wenyuzhang/Desktop/final data/2020data.csv") %>% 
+  janitor::clean_names() 
+```
+
+```{r, include=FALSE}
+NYPD_2020_day_count = 
+  NYPD_2020 %>% 
+  filter(name_of_borough != "") %>%  
+  group_by(month, day, year) %>% 
+  summarise(count = n()) %>% 
+  mutate(date = str_c(month, day, year, sep = "/")) %>% 
+  mutate(date = mdy(date)) 
+```
+
+this is 2020 gif
+```{r}
+plot = 
+  NYPD_2020_day_count %>% 
+  ggplot(aes(x = date, y = count)) +
+  geom_line(col = "deepskyblue3", size = 1) + 
+  geom_point(col = "deepskyblue3", size = 2) + 
+  labs(title = "Estimated NPYD Xount Per Day in 2020",
+       subtitle = "1/1/2020 - 12/31/2020.",
+       x = "day", 
+       y = "Estimated NPYD Xount Per Day") +
+  theme(axis.text.x = element_text(angle = 45)) +
+  transition_reveal(date) 
+
+plot
+```
+
+this is heatmap,
+
+```{r, include=FALSE}
+NYPD_2020_weekdays = 
+  NYPD_2020 %>% 
+  mutate(date = str_c(month, day, year, sep = "/")) %>% 
+  mutate(date = mdy(date)) %>% 
+  mutate(dow = wday(date, label = TRUE)) %>% 
+  separate(exact_crime_time, into = c("hour", "minute", "second"), sep = ":") %>% 
+  group_by(dow, hour) %>% 
+  summarise(count = n())
+```
+
+```{r}
+NYPD_2020_weekdays %>%
+  plot_ly(
+    x = ~hour, y = ~dow, z = ~count, type = "heatmap", colors = "BuPu"
+  ) %>%
+  colorbar(title = "2020", x = 1, y = 1) 
+```
+

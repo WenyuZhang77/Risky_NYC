@@ -1,0 +1,30 @@
+name: "Yay internet!"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - text: 'Data'
+      href: https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i
+    - text: 'Data Analysis'
+      menu:
+        - text: 'Analysis'
+          href: Hypothesis-Test.html
+        - text: 'Regression'
+          href: Regression-Analysis.html
+    - text: 'Plot'
+      href: Plot.html
+    - text: "About US"
+      href: about.html
+    - icon: fa-envelope fa-lg
+      href: mailto:<wz2591@cumc.columbia.edu>
+    - icon: fa-github fa-lg
+      href: http://github.com/WenyuZhang77
+    - text: "Map"
+      href: 2020heatmap.html
+output:
+  html_document:
+    theme: flatly
+
+    
+
+  
