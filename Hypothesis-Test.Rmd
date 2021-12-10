@@ -29,7 +29,7 @@ scale_fill_discrete = scale_fill_viridis_d
 ```
 
 ```{r, include=FALSE}
-dat = read_csv("/Users/wenyuzhang/Desktop/final data/2020data.csv")
+dat = read_csv("../final data/2020data.csv")
 head(dat)
 ```
 

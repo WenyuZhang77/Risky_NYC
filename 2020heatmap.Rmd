@@ -16,7 +16,7 @@ library(plotly)
 
 ```{r, include=FALSE}
 NYPD_2020 = 
-  read.csv("/Users/wenyuzhang/Desktop/final data/2020data.csv") %>% 
+  read.csv("../final data/2020data.csv") %>% 
   janitor::clean_names() 
 ```
 
