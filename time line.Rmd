@@ -1,0 +1,41 @@
+---
+title: "Untitled"
+author: "Yiming Li"
+date: "12/8/2021"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r}
+filename = list.files(path = "../data2") 
+pathname = str_c("../data2/", filename)
+```
+
+
+```{r, message=FALSE}
+time_count_df = tibble(
+  filename,
+  data = purrr::map(.x = pathname, ~read_csv(.x)) 
+) %>% 
+  unnest(cols = data) 
+```
+
+```{r}
+time_count_df_2016 = time_count_df %>% 
+  filter(date >= "2016-01-01")
+```
+
+2016 - 2020data
+```{r}
+time_count_df_2016 %>% 
+  ggplot(aes(x = date, y = count, color = name_of_borough)) +
+  geom_point(alpha = 0.05) +
+  geom_smooth(se = FALSE)
+```
+
+
+

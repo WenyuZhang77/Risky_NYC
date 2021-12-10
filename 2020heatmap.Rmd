@@ -1,5 +1,5 @@
 ---
-title: "2020 hear map"
+title: "2020 heat map"
 author: "Yiming Li"
 date: "12/6/2021"
 output: html_document
@@ -37,7 +37,7 @@ plot =
   ggplot(aes(x = date, y = count)) +
   geom_line(col = "deepskyblue3", size = 1) + 
   geom_point(col = "deepskyblue3", size = 2) + 
-  labs(title = "Estimated NPYD Xount Per Day in 2020",
+  labs(title = "Estimated NPYD Count Per Day in 2020",
        subtitle = "1/1/2020 - 12/31/2020.",
        x = "day", 
        y = "Estimated NPYD Xount Per Day") +
@@ -47,7 +47,7 @@ plot =
 plot
 ```
 
-this is heatmap,
+this is heatmap for 2020
 
 ```{r, include=FALSE}
 NYPD_2020_weekdays = 
