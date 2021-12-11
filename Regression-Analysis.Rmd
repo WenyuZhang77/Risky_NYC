@@ -31,14 +31,13 @@ scale_colour_discrete = scale_color_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-```{r, include=FALSE}
+```{r, message=FALSE}
 dat = read_csv("../final data/2020data.csv")
-head(dat)
 ```
 
-# Regression Analysis
-
 ## Clean and summary data
+
+### 1. Clean regression
 ```{r}
 ## regression
 clean_regression =
@@ -61,21 +60,53 @@ clean_regression =
   mutate(susp_sex = as.factor(susp_sex))
 
 clean_regression
+```
 
+### 2. Summary model
+```{r, message=FALSE}
 # run proportional odds model
 model <- polr(formula = level_of_offense ~ susp_age_group + susp_race + susp_sex + name_of_borough, data = clean_regression)
 
-# get summary
-summary(model)
 ```
+
+When there are more than two outcome categories with an order, proportional odds logistic
+regression can be utilized. The assumption that no input variable has a disproportionate
+influence on a certain level of the output variable is a key underlying assumption (McNulty,
+2021). Since our response variable is level of offense, which contains FELONY,
+MISDEMEANOR, and VIOLATION, it satisfies “more than two outcome categories (we have 3)
+with an order (felony is the most severe crime whereas violation is the minor offense)”. Hence, we use proportional odds logistic regression
 
 ## Proportional Odds Logistic Regression
 
-```{r}
-ctable <- coef(summary(model))
-## calculate and store p values
-p <- pnorm(abs(ctable[, "t value"]), lower.tail = FALSE) * 2
+```{r, message=FALSE}
+# get coefficients (it's in matrix form)
+coefficients <- summary(model)$coefficients
 
-## combined table
-(ctable <- cbind(ctable, "p value" = p))
+# calculate p-values
+p_value <- (1 - pnorm(abs(coefficients[ ,"t value"]), 0, 1))*2
+
+# bind back to coefficients
+coefficients <- cbind(coefficients, p_value)
+odds_ratio <- exp(coefficients[ ,"Value"])
+
+# combine with coefficient and p_value
+(coefficients <- cbind(
+  coefficients[ ,c("Value", "p_value")],
+  odds_ratio
+)) %>% 
+  knitr::kable(digits = 3)
 ```
+
+### Interpretation
+
+Male suspect have approximately 87% higher odds of greater level of offense compared to Female suspect.
+
+Suspect who in age group 18-24 have the highest odds ratio among all age groups, that is approximately 29% higher odds of greater level of offense compared to suspect under age 18.
+
+Suspect who are black hispanic have the highest odds ratio among all race groups, that is approximately 86.69% higher odds of greater level of offense compared to suspect that are American Indian/Alaskan native.
+
+The borough Manhattan have the highest odds ratio among all boroughs, that is approximately 19.69% higher odds of greater level of offense compared to Bronx.
+
+## Reference
+
+McNulty, K. (2021). Handbook of Regression Modeling in People Analytics: With Examples in R and Python. Retrieved 10 December 2021, from https://peopleanalytics-regression-book.org/ord-reg.html

@@ -14,8 +14,8 @@
 
 <title>Regression Analysis</title>
 
-<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -34,6 +34,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -221,6 +222,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -320,11 +324,11 @@ div.tocify {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i">Data</a>
+  <a href="Shiny_Dashboard.html">Dashboard</a>
+</li>
+<li>
+  <a href="Data-resources.html">Data</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -345,6 +349,14 @@ div.tocify {
   <a href="Plot.html">Plot</a>
 </li>
 <li>
+  <a href="2020heatmap.html">Map</a>
+</li>
+<li>
+  <a href="time-line.html">Time Line</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
   <a href="about.html">About US</a>
 </li>
 <li>
@@ -354,13 +366,10 @@ div.tocify {
   </a>
 </li>
 <li>
-  <a href="http://github.com/WenyuZhang77">
+  <a href="https://github.com/WenyuZhang77/Risky_NYC">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
-</li>
-<li>
-  <a href="2020heatmap.html">Map</a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -368,6 +377,14 @@ div.tocify {
 </div><!--/.navbar -->
 
 <div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
 
@@ -378,10 +395,11 @@ div.tocify {
 </div>
 
 
-<div id="regression-analysis" class="section level1">
-<h1>Regression Analysis</h1>
+<pre class="r"><code>dat = read_csv(&quot;../final data/2020data.csv&quot;)</code></pre>
 <div id="clean-and-summary-data" class="section level2">
 <h2>Clean and summary data</h2>
+<div id="clean-regression" class="section level3">
+<h3>1. Clean regression</h3>
 <pre class="r"><code>## regression
 clean_regression =
   dat %&gt;%
@@ -423,87 +441,151 @@ clean_regression</code></pre>
 ## #   susp_age_group &lt;fct&gt;, susp_race &lt;fct&gt;, susp_sex &lt;fct&gt;,
 ## #   transit_district &lt;dbl&gt;, latitude &lt;dbl&gt;, longitude &lt;dbl&gt;, lat_lon &lt;chr&gt;,
 ## #   station_name &lt;chr&gt;, vic_age_group &lt;chr&gt;, vic_race &lt;chr&gt;, vic_sex &lt;chr&gt;</code></pre>
+</div>
+<div id="summary-model" class="section level3">
+<h3>2. Summary model</h3>
 <pre class="r"><code># run proportional odds model
-model &lt;- polr(formula = level_of_offense ~ susp_age_group + susp_race + susp_sex + name_of_borough, data = clean_regression)
-
-# get summary
-summary(model)</code></pre>
-<pre><code>## 
-## Re-fitting to get Hessian</code></pre>
-<pre><code>## Call:
-## polr(formula = level_of_offense ~ susp_age_group + susp_race + 
-##     susp_sex + name_of_borough, data = clean_regression)
-## 
-## Coefficients:
-##                                       Value Std. Error  t value
-## susp_age_group18-24                0.255906    0.02744   9.3264
-## susp_age_group25-44               -0.007913    0.02573  -0.3075
-## susp_age_group45-64               -0.316664    0.02724 -11.6251
-## susp_age_group65+                 -0.925446    0.04361 -21.2212
-## susp_raceASIAN / PACIFIC ISLANDER  0.322691    0.09058   3.5625
-## susp_raceBLACK                     0.585324    0.08840   6.6211
-## susp_raceBLACK HISPANIC            0.624319    0.08985   6.9484
-## susp_raceWHITE                     0.286262    0.08915   3.2110
-## susp_raceWHITE HISPANIC            0.499887    0.08867   5.6379
-## susp_sexM                          0.627418    0.01172  53.5331
-## name_of_boroughBROOKLYN            0.114844    0.01354   8.4797
-## name_of_boroughMANHATTAN           0.179760    0.01369  13.1301
-## name_of_boroughQUEENS              0.091290    0.01461   6.2485
-## name_of_boroughSTATEN ISLAND       0.019421    0.02556   0.7598
-## 
-## Intercepts:
-##                       Value    Std. Error t value 
-## VIOLATION|MISDEMEANOR  -0.2033   0.0923    -2.2019
-## MISDEMEANOR|FELONY      1.9818   0.0925    21.4237
-## 
-## Residual Deviance: 329006.59 
-## AIC: 329038.59</code></pre>
+model &lt;- polr(formula = level_of_offense ~ susp_age_group + susp_race + susp_sex + name_of_borough, data = clean_regression)</code></pre>
+<p>When there are more than two outcome categories with an order, proportional odds logistic regression can be utilized. The assumption that no input variable has a disproportionate influence on a certain level of the output variable is a key underlying assumption (McNulty, 2021). Since our response variable is level of offense, which contains FELONY, MISDEMEANOR, and VIOLATION, it satisfies “more than two outcome categories (we have 3) with an order (felony is the most severe crime whereas violation is the minor offense)”. Hence, we use proportional odds logistic regression</p>
+</div>
 </div>
 <div id="proportional-odds-logistic-regression" class="section level2">
 <h2>Proportional Odds Logistic Regression</h2>
-<pre class="r"><code>ctable &lt;- coef(summary(model))</code></pre>
-<pre><code>## 
-## Re-fitting to get Hessian</code></pre>
-<pre class="r"><code>## calculate and store p values
-p &lt;- pnorm(abs(ctable[, &quot;t value&quot;]), lower.tail = FALSE) * 2
+<pre class="r"><code># get coefficients (it&#39;s in matrix form)
+coefficients &lt;- summary(model)$coefficients
 
-## combined table
-(ctable &lt;- cbind(ctable, &quot;p value&quot; = p))</code></pre>
-<pre><code>##                                          Value Std. Error     t value
-## susp_age_group18-24                0.255906189 0.02743884   9.3264221
-## susp_age_group25-44               -0.007912867 0.02573301  -0.3074987
-## susp_age_group45-64               -0.316663512 0.02723955 -11.6251384
-## susp_age_group65+                 -0.925446286 0.04360946 -21.2212279
-## susp_raceASIAN / PACIFIC ISLANDER  0.322691074 0.09057880   3.5625452
-## susp_raceBLACK                     0.585324322 0.08840354   6.6210508
-## susp_raceBLACK HISPANIC            0.624318965 0.08985118   6.9483672
-## susp_raceWHITE                     0.286261616 0.08915108   3.2109720
-## susp_raceWHITE HISPANIC            0.499887351 0.08866615   5.6378602
-## susp_sexM                          0.627417512 0.01172017  53.5331298
-## name_of_boroughBROOKLYN            0.114844474 0.01354341   8.4797282
-## name_of_boroughMANHATTAN           0.179759550 0.01369064  13.1301035
-## name_of_boroughQUEENS              0.091290284 0.01460997   6.2484904
-## name_of_boroughSTATEN ISLAND       0.019420978 0.02556204   0.7597587
-## VIOLATION|MISDEMEANOR             -0.203335418 0.09234678  -2.2018680
-## MISDEMEANOR|FELONY                 1.981781329 0.09250431  21.4236648
-##                                         p value
-## susp_age_group18-24                1.095051e-20
-## susp_age_group25-44                7.584638e-01
-## susp_age_group45-64                3.070953e-31
-## susp_age_group65+                 6.081498e-100
-## susp_raceASIAN / PACIFIC ISLANDER  3.672766e-04
-## susp_raceBLACK                     3.566544e-11
-## susp_raceBLACK HISPANIC            3.695381e-12
-## susp_raceWHITE                     1.322868e-03
-## susp_raceWHITE HISPANIC            1.721762e-08
-## susp_sexM                          0.000000e+00
-## name_of_boroughBROOKLYN            2.257206e-17
-## name_of_boroughMANHATTAN           2.213539e-39
-## name_of_boroughQUEENS              4.144387e-10
-## name_of_boroughSTATEN ISLAND       4.473988e-01
-## VIOLATION|MISDEMEANOR              2.767464e-02
-## MISDEMEANOR|FELONY                8.040720e-102</code></pre>
+# calculate p-values
+p_value &lt;- (1 - pnorm(abs(coefficients[ ,&quot;t value&quot;]), 0, 1))*2
+
+# bind back to coefficients
+coefficients &lt;- cbind(coefficients, p_value)
+odds_ratio &lt;- exp(coefficients[ ,&quot;Value&quot;])
+
+# combine with coefficient and p_value
+(coefficients &lt;- cbind(
+  coefficients[ ,c(&quot;Value&quot;, &quot;p_value&quot;)],
+  odds_ratio
+)) %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Value</th>
+<th align="right">p_value</th>
+<th align="right">odds_ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">susp_age_group18-24</td>
+<td align="right">0.256</td>
+<td align="right">0.000</td>
+<td align="right">1.292</td>
+</tr>
+<tr class="even">
+<td align="left">susp_age_group25-44</td>
+<td align="right">-0.008</td>
+<td align="right">0.758</td>
+<td align="right">0.992</td>
+</tr>
+<tr class="odd">
+<td align="left">susp_age_group45-64</td>
+<td align="right">-0.317</td>
+<td align="right">0.000</td>
+<td align="right">0.729</td>
+</tr>
+<tr class="even">
+<td align="left">susp_age_group65+</td>
+<td align="right">-0.925</td>
+<td align="right">0.000</td>
+<td align="right">0.396</td>
+</tr>
+<tr class="odd">
+<td align="left">susp_raceASIAN / PACIFIC ISLANDER</td>
+<td align="right">0.323</td>
+<td align="right">0.000</td>
+<td align="right">1.381</td>
+</tr>
+<tr class="even">
+<td align="left">susp_raceBLACK</td>
+<td align="right">0.585</td>
+<td align="right">0.000</td>
+<td align="right">1.796</td>
+</tr>
+<tr class="odd">
+<td align="left">susp_raceBLACK HISPANIC</td>
+<td align="right">0.624</td>
+<td align="right">0.000</td>
+<td align="right">1.867</td>
+</tr>
+<tr class="even">
+<td align="left">susp_raceWHITE</td>
+<td align="right">0.286</td>
+<td align="right">0.001</td>
+<td align="right">1.331</td>
+</tr>
+<tr class="odd">
+<td align="left">susp_raceWHITE HISPANIC</td>
+<td align="right">0.500</td>
+<td align="right">0.000</td>
+<td align="right">1.649</td>
+</tr>
+<tr class="even">
+<td align="left">susp_sexM</td>
+<td align="right">0.627</td>
+<td align="right">0.000</td>
+<td align="right">1.873</td>
+</tr>
+<tr class="odd">
+<td align="left">name_of_boroughBROOKLYN</td>
+<td align="right">0.115</td>
+<td align="right">0.000</td>
+<td align="right">1.122</td>
+</tr>
+<tr class="even">
+<td align="left">name_of_boroughMANHATTAN</td>
+<td align="right">0.180</td>
+<td align="right">0.000</td>
+<td align="right">1.197</td>
+</tr>
+<tr class="odd">
+<td align="left">name_of_boroughQUEENS</td>
+<td align="right">0.091</td>
+<td align="right">0.000</td>
+<td align="right">1.096</td>
+</tr>
+<tr class="even">
+<td align="left">name_of_boroughSTATEN ISLAND</td>
+<td align="right">0.019</td>
+<td align="right">0.447</td>
+<td align="right">1.020</td>
+</tr>
+<tr class="odd">
+<td align="left">VIOLATION|MISDEMEANOR</td>
+<td align="right">-0.203</td>
+<td align="right">0.028</td>
+<td align="right">0.816</td>
+</tr>
+<tr class="even">
+<td align="left">MISDEMEANOR|FELONY</td>
+<td align="right">1.982</td>
+<td align="right">0.000</td>
+<td align="right">7.256</td>
+</tr>
+</tbody>
+</table>
+<div id="interpretation" class="section level3">
+<h3>Interpretation</h3>
+<p>Male suspect have approximately 87% higher odds of greater level of offense compared to Female suspect.</p>
+<p>Suspect who in age group 18-24 have the highest odds ratio among all age groups, that is approximately 29% higher odds of greater level of offense compared to suspect under age 18.</p>
+<p>Suspect who are black hispanic have the highest odds ratio among all race groups, that is approximately 86.69% higher odds of greater level of offense compared to suspect that are American Indian/Alaskan native.</p>
+<p>The borough Manhattan have the highest odds ratio among all boroughs, that is approximately 19.69% higher odds of greater level of offense compared to Bronx.</p>
 </div>
+</div>
+<div id="reference" class="section level2">
+<h2>Reference</h2>
+<p>McNulty, K. (2021). Handbook of Regression Modeling in People Analytics: With Examples in R and Python. Retrieved 10 December 2021, from <a href="https://peopleanalytics-regression-book.org/ord-reg.html" class="uri">https://peopleanalytics-regression-book.org/ord-reg.html</a></p>
 </div>
 
 
@@ -541,6 +623,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {
