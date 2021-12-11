@@ -14,8 +14,8 @@
 
 <title>Hypothesis Test</title>
 
-<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -34,6 +34,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -221,6 +222,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -320,11 +324,8 @@ div.tocify {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i">Data</a>
+  <a href="Data-resources.html">Data</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -345,6 +346,14 @@ div.tocify {
   <a href="Plot.html">Plot</a>
 </li>
 <li>
+  <a href="2020heatmap.html">Map</a>
+</li>
+<li>
+  <a href="time-line.html">Time Line</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
   <a href="about.html">About US</a>
 </li>
 <li>
@@ -354,13 +363,10 @@ div.tocify {
   </a>
 </li>
 <li>
-  <a href="http://github.com/WenyuZhang77">
+  <a href="https://github.com/WenyuZhang77/Risky_NYC">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
-</li>
-<li>
-  <a href="2020heatmap.html">Map</a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -368,6 +374,14 @@ div.tocify {
 </div><!--/.navbar -->
 
 <div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
 
@@ -377,59 +391,45 @@ div.tocify {
 </div>
 
 
-<div id="hypothesis-test" class="section level1">
-<h1>Hypothesis Test</h1>
+<pre><code>## # A tibble: 6 × 29
+##    ...1 month day    year exact_crime_time precinct_of_crime ky_cd
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;time&gt;                       &lt;dbl&gt; &lt;dbl&gt;
+## 1     1 12    22     2020 17:46                           32   101
+## 2     2 09    02     2020 20:40                           70   101
+## 3     3 06    05     2020 00:07                           48   101
+## 4     4 07    20     2020 23:44                           52   101
+## 5     5 07    02     2020 01:07                           44   101
+## 6     6 11    04     2020 09:14                           28   101
+## # … with 22 more variables: description_of_crime &lt;chr&gt;, pd_cd &lt;dbl&gt;,
+## #   pd_desc &lt;chr&gt;, completed_or_not &lt;chr&gt;, level_of_offense &lt;chr&gt;,
+## #   name_of_borough &lt;chr&gt;, description_of_premises &lt;chr&gt;, juris_desc &lt;chr&gt;,
+## #   jurisdiction_code &lt;dbl&gt;, parks_nm &lt;chr&gt;, hadevelopt &lt;chr&gt;,
+## #   susp_age_group &lt;chr&gt;, susp_race &lt;chr&gt;, susp_sex &lt;chr&gt;,
+## #   transit_district &lt;dbl&gt;, latitude &lt;dbl&gt;, longitude &lt;dbl&gt;, lat_lon &lt;chr&gt;,
+## #   station_name &lt;chr&gt;, vic_age_group &lt;chr&gt;, vic_race &lt;chr&gt;, vic_sex &lt;chr&gt;</code></pre>
 <div id="chi-squareed-test-to-test-homogeneity-of-race-and-level-of-offense" class="section level2">
 <h2>Chi-squareed test to test homogeneity of race and level of offense</h2>
-<ol style="list-style-type: decimal">
-<li>Import and Clean data</li>
-</ol>
-<pre class="r"><code>dat_clean =
-  dat %&gt;%
-  filter(!(susp_race == &quot;&quot;),
-         !(susp_race == &quot;UNKNOWN&quot;)) %&gt;%
-  mutate(level_of_offense = as.factor(level_of_offense)) %&gt;%
-  mutate(susp_race = as.factor(susp_race)) %&gt;%
-  group_by(susp_race,level_of_offense) %&gt;%
-  summarise(n_obs = n()) %&gt;%
-  pivot_wider(
-  names_from = &quot;susp_race&quot;, 
-  values_from = &quot;n_obs&quot;)</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;susp_race&#39;. You can override using the `.groups` argument.</code></pre>
-<ol start="2" style="list-style-type: decimal">
-<li>Do chi-squared test to test suspect gender and level of offense</li>
-</ol>
-<pre class="r"><code>dat_clean1 =
-  dat %&gt;%
-  filter(!(susp_sex == &quot;&quot;),
-         !(susp_sex == &quot;UNKNOWN&quot;),
-         !(susp_sex == &quot;U&quot;)) %&gt;%
-  mutate(level_of_offense = as.factor(level_of_offense)) %&gt;%
-  mutate(susp_race = as.factor(susp_sex))
-
-table(dat_clean1$level_of_offense, dat_clean1$susp_sex)</code></pre>
+<div id="do-chi-squared-test-to-test-suspect-gender-and-level-of-offense" class="section level3">
+<h3>1. Do chi-squared test to test suspect gender and level of offense</h3>
+<p><span class="math inline">\(H_0\)</span>: there is no association between level of offense and suspect’s gender</p>
+<p><span class="math inline">\(H_1\)</span>: there is association between level of offense and suspect’s gender</p>
 <pre><code>##              
 ##                   F     M
 ##   FELONY       9077 57590
 ##   MISDEMEANOR 22117 88087
 ##   VIOLATION   17399 37486</code></pre>
-<pre class="r"><code>chisq.test(table(dat_clean1$level_of_offense, dat_clean1$susp_sex), correct = F)</code></pre>
 <pre><code>## 
 ##  Pearson&#39;s Chi-squared test
 ## 
 ## data:  table(dat_clean1$level_of_offense, dat_clean1$susp_sex)
 ## X-squared = 6044, df = 2, p-value &lt; 2.2e-16</code></pre>
-<ol start="3" style="list-style-type: decimal">
-<li>Do chi-squared test to test suspect race and level of offense</li>
-</ol>
-<pre class="r"><code>dat_clean2 =
-  dat %&gt;%
-  filter(!(susp_race == &quot;&quot;),
-         !(susp_race == &quot;UNKNOWN&quot;)) %&gt;%
-  mutate(level_of_offense = as.factor(level_of_offense)) %&gt;%
-  mutate(susp_race = as.factor(susp_race))
-
-table(dat_clean2$level_of_offense, dat_clean2$susp_race)</code></pre>
+<p>Conclusion:</p>
+<p>At significance level 0.05, since p-value &lt; 2.2e-16 &lt; 0.05,we reject the null hypothesis and conclude that there is association between level of offense and suspect’s gender.</p>
+</div>
+<div id="do-chi-squared-test-to-test-suspect-race-and-level-of-offense" class="section level3">
+<h3>2. Do chi-squared test to test suspect race and level of offense</h3>
+<p><span class="math inline">\(H_0\)</span>:there is no association between level of offense and suspect’s race</p>
+<p><span class="math inline">\(H_1\)</span>:there is association between level of offense and suspect’s race</p>
 <pre><code>##              
 ##               AMERICAN INDIAN/ALASKAN NATIVE ASIAN / PACIFIC ISLANDER BLACK
 ##   FELONY                                 109                     2670 34826
@@ -440,43 +440,17 @@ table(dat_clean2$level_of_offense, dat_clean2$susp_race)</code></pre>
 ##   FELONY                4886  6527          13819
 ##   MISDEMEANOR           7533 13910          24646
 ##   VIOLATION             3302  8040          11324</code></pre>
-<pre class="r"><code>chisq.test(table(dat_clean2$level_of_offense, dat_clean2$susp_race), correct = F)</code></pre>
 <pre><code>## 
 ##  Pearson&#39;s Chi-squared test
 ## 
 ## data:  table(dat_clean2$level_of_offense, dat_clean2$susp_race)
 ## X-squared = 1260.1, df = 10, p-value &lt; 2.2e-16</code></pre>
+<p>Conclusion:</p>
+<p>At significance level 0.05, since p-value &lt; 2.2e-16 &lt; 0.05,we reject the null hypothesis and conclude that there is association between level of offense and suspect’s race.</p>
+</div>
 </div>
 <div id="anova-test" class="section level2">
 <h2>ANOVA test</h2>
-<pre class="r"><code>wenyudata = 
-  dat %&gt;% 
-  group_by(month, day, name_of_borough) %&gt;% 
-  select(completed_or_not, name_of_borough) %&gt;% 
-  filter(name_of_borough != &quot;&quot;) %&gt;% 
-  summarise(count = n()) %&gt;% 
-  arrange(month,day) </code></pre>
-<pre><code>## Adding missing grouping variables: `month`, `day`</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;month&#39;, &#39;day&#39;. You can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>wenyudata</code></pre>
-<pre><code>## # A tibble: 1,830 × 4
-## # Groups:   month, day [366]
-##    month day   name_of_borough count
-##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;           &lt;int&gt;
-##  1 01    01    BRONX             354
-##  2 01    01    BROOKLYN          527
-##  3 01    01    MANHATTAN         396
-##  4 01    01    QUEENS            383
-##  5 01    01    STATEN ISLAND      70
-##  6 01    02    BRONX             283
-##  7 01    02    BROOKLYN          362
-##  8 01    02    MANHATTAN         343
-##  9 01    02    QUEENS            265
-## 10 01    02    STATEN ISLAND      36
-## # … with 1,820 more rows</code></pre>
-<pre class="r"><code>wenyudata %&gt;% 
-  pivot_wider(names_from = name_of_borough,
-              values_from = count) </code></pre>
 <pre><code>## # A tibble: 366 × 7
 ## # Groups:   month, day [366]
 ##    month day   BRONX BROOKLYN MANHATTAN QUEENS `STATEN ISLAND`
@@ -492,13 +466,6 @@ table(dat_clean2$level_of_offense, dat_clean2$susp_race)</code></pre>
 ##  9 01    09      278      349       310    235              40
 ## 10 01    10      292      386       327    276              56
 ## # … with 356 more rows</code></pre>
-<pre class="r"><code>wenyudata %&gt;% 
-  select(name_of_borough, count) %&gt;% 
-  group_by(name_of_borough) %&gt;% 
-  summarise(mean = mean(count),
-            standard_error = sd(count)) %&gt;% 
-  knitr::kable(caption = &quot;crime number in borough&quot;)</code></pre>
-<pre><code>## Adding missing grouping variables: `month`, `day`</code></pre>
 <table>
 <caption>crime number in borough</caption>
 <thead>
@@ -537,26 +504,13 @@ table(dat_clean2$level_of_offense, dat_clean2$susp_race)</code></pre>
 </tbody>
 </table>
 <p>we want to do ANOVA test for different borough comparsion</p>
-<p><span class="math inline">\(H_0\)</span>: there is no difference of crime number amount means between different boroughs <span class="math inline">\(H_1\)</span>: at least two crime number amount means of boroughs are not equal</p>
-<pre class="r"><code>crime_total = 
-  wenyudata %&gt;% 
-  select(name_of_borough, count) %&gt;% 
-  group_by(name_of_borough)</code></pre>
-<pre><code>## Adding missing grouping variables: `month`, `day`</code></pre>
-<pre class="r"><code>aov_boro_number = 
-  aov(count ~factor(name_of_borough), data = crime_total)
-
-summary(aov_boro_number)</code></pre>
+<p><span class="math inline">\(H_0\)</span>: there is no difference of crime number amount means between different boroughs</p>
+<p><span class="math inline">\(H_1\)</span>: at least two crime number amount means of boroughs are not equal</p>
 <pre><code>##                           Df   Sum Sq Mean Sq F value Pr(&gt;F)    
 ## factor(name_of_borough)    4 15612623 3903156    2260 &lt;2e-16 ***
 ## Residuals               1825  3151584    1727                   
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>Tukey_comp =
-  TukeyHSD(aov_boro_number, conf.level = 0.99)
-
-Tukey_comp $`factor(name_of_borough)` %&gt;% 
-  knitr::kable()</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -641,7 +595,6 @@ Tukey_comp $`factor(name_of_borough)` %&gt;%
 </tbody>
 </table>
 </div>
-</div>
 
 
 
@@ -678,6 +631,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {

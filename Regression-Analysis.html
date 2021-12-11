@@ -14,8 +14,8 @@
 
 <title>Regression Analysis</title>
 
-<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -34,6 +34,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -221,6 +222,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -320,11 +324,8 @@ div.tocify {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i">Data</a>
+  <a href="Data-resources.html">Data</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -345,6 +346,14 @@ div.tocify {
   <a href="Plot.html">Plot</a>
 </li>
 <li>
+  <a href="2020heatmap.html">Map</a>
+</li>
+<li>
+  <a href="time-line.html">Time Line</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
   <a href="about.html">About US</a>
 </li>
 <li>
@@ -354,13 +363,10 @@ div.tocify {
   </a>
 </li>
 <li>
-  <a href="http://github.com/WenyuZhang77">
+  <a href="https://github.com/WenyuZhang77/Risky_NYC">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
-</li>
-<li>
-  <a href="2020heatmap.html">Map</a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -368,6 +374,14 @@ div.tocify {
 </div><!--/.navbar -->
 
 <div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
 
@@ -378,10 +392,11 @@ div.tocify {
 </div>
 
 
-<div id="regression-analysis" class="section level1">
-<h1>Regression Analysis</h1>
+<pre class="r"><code>dat = read_csv(&quot;../final data/2020data.csv&quot;)</code></pre>
 <div id="clean-and-summary-data" class="section level2">
 <h2>Clean and summary data</h2>
+<div id="clean-regression" class="section level3">
+<h3>1. Clean regression</h3>
 <pre class="r"><code>## regression
 clean_regression =
   dat %&gt;%
@@ -423,13 +438,14 @@ clean_regression</code></pre>
 ## #   susp_age_group &lt;fct&gt;, susp_race &lt;fct&gt;, susp_sex &lt;fct&gt;,
 ## #   transit_district &lt;dbl&gt;, latitude &lt;dbl&gt;, longitude &lt;dbl&gt;, lat_lon &lt;chr&gt;,
 ## #   station_name &lt;chr&gt;, vic_age_group &lt;chr&gt;, vic_race &lt;chr&gt;, vic_sex &lt;chr&gt;</code></pre>
+</div>
+<div id="summary-model" class="section level3">
+<h3>2. Summary model</h3>
 <pre class="r"><code># run proportional odds model
 model &lt;- polr(formula = level_of_offense ~ susp_age_group + susp_race + susp_sex + name_of_borough, data = clean_regression)
 
 # get summary
 summary(model)</code></pre>
-<pre><code>## 
-## Re-fitting to get Hessian</code></pre>
 <pre><code>## Call:
 ## polr(formula = level_of_offense ~ susp_age_group + susp_race + 
 ##     susp_sex + name_of_borough, data = clean_regression)
@@ -458,13 +474,13 @@ summary(model)</code></pre>
 ## 
 ## Residual Deviance: 329006.59 
 ## AIC: 329038.59</code></pre>
+<p>When there are more than two outcome categories with an order, proportional odds logistic regression can be utilized. The assumption that no input variable has a disproportionate influence on a certain level of the output variable is a key underlying assumption (McNulty, 2021). Since our response variable is level of offense, which contains FELONY, MISDEMEANOR, and VIOLATION, it satisfies “more than two outcome categories (we have 3) with an order (felony is the most severe crime whereas violation is the minor offense)”. Hence, we use proportional odds logistic regression</p>
+</div>
 </div>
 <div id="proportional-odds-logistic-regression" class="section level2">
 <h2>Proportional Odds Logistic Regression</h2>
-<pre class="r"><code>ctable &lt;- coef(summary(model))</code></pre>
-<pre><code>## 
-## Re-fitting to get Hessian</code></pre>
-<pre class="r"><code>## calculate and store p values
+<pre class="r"><code>ctable &lt;- coef(summary(model))
+## calculate and store p values
 p &lt;- pnorm(abs(ctable[, &quot;t value&quot;]), lower.tail = FALSE) * 2
 
 ## combined table
@@ -504,6 +520,9 @@ p &lt;- pnorm(abs(ctable[, &quot;t value&quot;]), lower.tail = FALSE) * 2
 ## VIOLATION|MISDEMEANOR              2.767464e-02
 ## MISDEMEANOR|FELONY                8.040720e-102</code></pre>
 </div>
+<div id="reference" class="section level2">
+<h2>Reference</h2>
+<p>McNulty, K. (2021). Handbook of Regression Modeling in People Analytics: With Examples in R and Python. Retrieved 10 December 2021, from <a href="https://peopleanalytics-regression-book.org/ord-reg.html" class="uri">https://peopleanalytics-regression-book.org/ord-reg.html</a></p>
 </div>
 
 
@@ -541,6 +560,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {

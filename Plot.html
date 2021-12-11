@@ -12,10 +12,10 @@
 <meta name="author" content="Shiwei Chen" />
 
 
-<title>jessica_personal</title>
+<title>Plot</title>
 
-<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -34,6 +34,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -221,6 +222,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -320,11 +324,8 @@ div.tocify {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i">Data</a>
+  <a href="Data-resources.html">Data</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -345,6 +346,14 @@ div.tocify {
   <a href="Plot.html">Plot</a>
 </li>
 <li>
+  <a href="2020heatmap.html">Map</a>
+</li>
+<li>
+  <a href="time-line.html">Time Line</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
   <a href="about.html">About US</a>
 </li>
 <li>
@@ -354,13 +363,10 @@ div.tocify {
   </a>
 </li>
 <li>
-  <a href="http://github.com/WenyuZhang77">
+  <a href="https://github.com/WenyuZhang77/Risky_NYC">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
-</li>
-<li>
-  <a href="2020heatmap.html">Map</a>
 </li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -369,16 +375,22 @@ div.tocify {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">jessica_personal</h1>
+
+<h1 class="title toc-ignore">Plot</h1>
 <h4 class="author">Shiwei Chen</h4>
 
 </div>
 
 
-<div id="plot" class="section level1">
-<h1>Plot</h1>
 <div id="suspect-plot" class="section level2">
 <h2>Suspect plot</h2>
 <pre class="r"><code>susp_df = df20_tidy %&gt;% 
@@ -388,9 +400,8 @@ div.tocify {
          !(susp_race == &quot;UNKNOWN&quot;), 
          !(susp_sex == &quot;UNKNOWN&quot;), 
          !(susp_sex == &quot;U&quot;))</code></pre>
-<ol style="list-style-type: decimal">
-<li>Suspect-age plot (Total number of people in each age group(Suspect))</li>
-</ol>
+<div id="suspect-age-plot-total-number-of-people-in-each-age-groupsuspect" class="section level3">
+<h3>1. Suspect-age plot (Total number of people in each age group(Suspect))</h3>
 <pre class="r"><code>susp_df %&gt;% 
   group_by(susp_age_group) %&gt;% 
   summarise(count = n()) %&gt;% 
@@ -404,24 +415,31 @@ div.tocify {
     title = &quot;Total number of people in each age group(Suspect)&quot;
   )</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-4-1.png" width="90%" /></p>
-<ol start="2" style="list-style-type: decimal">
-<li>Suspect-race plot (Total number of people for each race(Suspect))</li>
-</ol>
+<p>Conclusion: In 2020, persons between the ages of 25 to 44 have the highest crime rates for all types of offense events, while those age 65 or older have the lowest.</p>
+</div>
+<div id="suspect-race-plot-total-number-of-people-for-each-racesuspect" class="section level3">
+<h3>2. Suspect-race plot (Total number of people for each race(Suspect))</h3>
 <pre class="r"><code>susp_df %&gt;% 
   group_by(susp_race) %&gt;% 
   summarise(count = n()) %&gt;% 
-   ggplot(
+  mutate(susp_race = factor(susp_race), 
+         susp_race = fct_reorder(susp_race, count)) %&gt;%
+  ggplot(
     aes(x = susp_race, y = count, color = susp_race, fill = susp_race)) +
   geom_bar(stat = &quot;identity&quot;) +
   labs(
     x = &quot;Race&quot;,
     y = &quot;Number of people&quot;,
     title = &quot;Total number of people for each race(Suspect)&quot;
-  )</code></pre>
+  ) +
+  theme(
+      axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0.5),
+      legend.position = &quot;none&quot;)</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
-<ol start="3" style="list-style-type: decimal">
-<li>Suspect-sex plot (Total number of people in each sex group(Suspect))</li>
-</ol>
+<p>Conclusion: In 2020, black race have the highest crime rates for all types of offense events, while native american have the lowest.</p>
+</div>
+<div id="suspect-sex-plot-total-number-of-people-in-each-sex-groupsuspect" class="section level3">
+<h3>3. Suspect-sex plot (Total number of people in each sex group(Suspect))</h3>
 <pre class="r"><code>susp_df %&gt;% 
   group_by(susp_sex) %&gt;% 
   summarise(count = n()) %&gt;% 
@@ -432,11 +450,12 @@ div.tocify {
     x = &quot;Sex&quot;,
     y = &quot;Number of people&quot;,
     title = &quot;Total number of people in each sex group(Suspect)&quot;
-  )</code></pre>
+  ) </code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-6-1.png" width="90%" /></p>
-<ol start="4" style="list-style-type: decimal">
-<li>Suspect-age x race plot (Total number of people in each age group with race(Suspect))</li>
-</ol>
+<p>Conclusion: In 2020, male have the highest crime rates for all types of offense events.</p>
+</div>
+<div id="suspect-age-x-race-plot-total-number-of-people-in-each-age-group-with-racesuspect" class="section level3">
+<h3>4. Suspect-age x race plot (Total number of people in each age group with race(Suspect))</h3>
 <pre class="r"><code>susp_df %&gt;% 
   group_by(susp_age_group, susp_race) %&gt;% 
   summarise(number_of_people = n()) %&gt;% 
@@ -449,11 +468,11 @@ div.tocify {
     y = &quot;Number of people&quot;,
     title = &quot;Total number of people in each age group with race(Suspect)&quot;
   )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;susp_age_group&#39;. You can override using the `.groups` argument.</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-7-1.png" width="90%" /></p>
-<ol start="5" style="list-style-type: decimal">
-<li>Suspect-age x sex plot (Total number of people in each age group with sex(Suspect))</li>
-</ol>
+<p>Conclusion: In 2020, persons from 25 to 44 with black race have the highest crime rates for all types of offense events, while those who age above 65 with race of native american have the lowest.</p>
+</div>
+<div id="suspect-age-x-sex-plot-total-number-of-people-in-each-age-group-with-sexsuspect" class="section level3">
+<h3>5. Suspect-age x sex plot (Total number of people in each age group with sex(Suspect))</h3>
 <pre class="r"><code>susp_df %&gt;% 
   group_by(susp_age_group, susp_sex) %&gt;% 
   summarise(number_of_people = n()) %&gt;% 
@@ -467,15 +486,17 @@ div.tocify {
     y = &quot;Number of people&quot;,
     title = &quot;Total number of people in each age group with sex(Suspect)&quot;
   )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;susp_age_group&#39;. You can override using the `.groups` argument.</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-8-1.png" width="90%" /></p>
-<ol start="6" style="list-style-type: decimal">
-<li>Suspect-race x age plot (Total number of people for each race with sex(Suspect))</li>
-</ol>
+<p>Conclusion: In 2020, male from 25 to 44 have the highest crime rates for all types of offense events, while female who age above 65 have the lowest.</p>
+</div>
+<div id="suspect-race-x-age-plot-total-number-of-people-for-each-race-with-sexsuspect" class="section level3">
+<h3>6. Suspect-race x age plot (Total number of people for each race with sex(Suspect))</h3>
 <pre class="r"><code>susp_df %&gt;% 
   group_by(susp_race, susp_sex) %&gt;% 
   summarise(number_of_people = n()) %&gt;%
-   ggplot(
+  mutate(susp_race = factor(susp_race), 
+         susp_race = fct_reorder(susp_race, number_of_people)) %&gt;%
+  ggplot(
     aes(x = susp_race, y = number_of_people, color = susp_sex, fill = susp_sex)
     ) + 
   geom_bar(stat = &quot;identity&quot;) +
@@ -483,9 +504,13 @@ div.tocify {
     x = &quot;Race&quot;,
     y = &quot;Number of people&quot;,
     title = &quot;Total number of people for each race with sex(Suspect)&quot;
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;susp_race&#39;. You can override using the `.groups` argument.</code></pre>
+  ) +
+  theme(
+      axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0.5),
+      legend.position = &quot;none&quot;)</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-9-1.png" width="90%" /></p>
+<p>Conclusion: In 2020, male with black race have the highest crime rates for all types of offense events, while female with the race of native american have the lowest.</p>
+</div>
 </div>
 <div id="victim-plot" class="section level2">
 <h2>Victim plot</h2>
@@ -495,9 +520,8 @@ div.tocify {
   filter(!(vic_age_group == &quot;UNKNOWN&quot;), !(vic_race == &quot;UNKNOWN&quot;), !(vic_sex == &quot;UNKNOWN&quot;), !(vic_sex == &quot;U&quot;)) %&gt;% 
   filter(vic_age_group == &quot;&lt;18&quot; | vic_age_group == &quot;18-24&quot; | vic_age_group == &quot;25-44&quot; | vic_age_group == &quot;45-64&quot; | vic_age_group == &quot;65+&quot;) %&gt;% 
   filter(vic_sex == &quot;F&quot; | vic_sex == &quot;M&quot;)</code></pre>
-<ol style="list-style-type: decimal">
-<li>victim-age plot(Total number of people in each age group(Victim))</li>
-</ol>
+<div id="victim-age-plottotal-number-of-people-in-each-age-groupvictim" class="section level3">
+<h3>1. victim-age plot(Total number of people in each age group(Victim))</h3>
 <pre class="r"><code>vic_df %&gt;% 
   group_by(vic_age_group) %&gt;% 
   summarise(count = n()) %&gt;% 
@@ -510,12 +534,15 @@ div.tocify {
     title = &quot;Total number of people in each age group(Victim)&quot;
   )</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-11-1.png" width="90%" /></p>
-<ol start="2" style="list-style-type: decimal">
-<li>victim-race plot(Total number of people for each race(Victim))</li>
-</ol>
+<p>Conclusion: In 2020, persons between the ages of 25 and 44 have the highest victimization rates for all types of crime, while those age 65 or older have the lowest.</p>
+</div>
+<div id="victim-race-plottotal-number-of-people-for-each-racevictim" class="section level3">
+<h3>2. victim-race plot(Total number of people for each race(Victim))</h3>
 <pre class="r"><code>vic_df %&gt;% 
   group_by(vic_race) %&gt;% 
   summarise(count = n()) %&gt;% 
+  mutate(vic_race = factor(vic_race), 
+         vic_race = fct_reorder(vic_race, count)) %&gt;%
    ggplot(
     aes(x = vic_race, y = count, color = vic_race, fill = vic_race)) +
   geom_bar(stat = &quot;identity&quot;) +
@@ -523,11 +550,15 @@ div.tocify {
     x = &quot;Race&quot;,
     y = &quot;Number of people&quot;,
     title = &quot;Total number of people for each race(Victim)&quot;
-  )</code></pre>
+  ) +
+  theme(
+      axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0.5),
+      legend.position = &quot;none&quot;)</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-12-1.png" width="90%" /></p>
-<ol start="3" style="list-style-type: decimal">
-<li>victim-sex plot(Total number of people in each sex group(Victim))</li>
-</ol>
+<p>Conclusion: In 2020, persons with black race have the highest victimization rates for all types of crime, while native american have the lowest.</p>
+</div>
+<div id="victim-sex-plottotal-number-of-people-in-each-sex-groupvictim" class="section level3">
+<h3>3. victim-sex plot(Total number of people in each sex group(Victim))</h3>
 <pre class="r"><code>vic_df %&gt;% 
   group_by(vic_sex) %&gt;% 
   summarise(count = n()) %&gt;% 
@@ -540,12 +571,13 @@ div.tocify {
     title = &quot;Total number of people in each sex group(Victim)&quot;
   )</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-13-1.png" width="90%" /></p>
-<ol start="4" style="list-style-type: decimal">
-<li>victim-age x race plot(Total number of people in each age group with race(Victim))</li>
-</ol>
+<p>Conclusion: In 2020, female have the highest victimization rates for all types of crime, but the victimization rates of both gender are similar.</p>
+</div>
+<div id="victim-age-x-race-plottotal-number-of-people-in-each-age-group-with-racevictim" class="section level3">
+<h3>4. victim-age x race plot(Total number of people in each age group with race(Victim))</h3>
 <pre class="r"><code>vic_df %&gt;% 
   group_by(vic_age_group, vic_race) %&gt;% 
-  summarise(number_of_people = n()) %&gt;% 
+  summarise(number_of_people = n()) %&gt;%
   ggplot(
     aes(x = vic_age_group, y = number_of_people, color = vic_race, fill = vic_race)) +
   geom_bar(stat = &quot;identity&quot;) +
@@ -554,11 +586,11 @@ div.tocify {
     y = &quot;Number of people&quot;,
     title = &quot;Total number of people in each age group with race(Victim)&quot;
   )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;vic_age_group&#39;. You can override using the `.groups` argument.</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-14-1.png" width="90%" /></p>
-<ol start="5" style="list-style-type: decimal">
-<li>victim-age x sex plot(Total number of people in each age group with sex(Victim))</li>
-</ol>
+<p>Conclusion: In 2020, persons from 25 to 44 with black race have the highest victimization rates for all types of crime, while persons who younger than 18 with race of native american have the lowest.</p>
+</div>
+<div id="victim-age-x-sex-plottotal-number-of-people-in-each-age-group-with-sexvictim" class="section level3">
+<h3>5. victim-age x sex plot(Total number of people in each age group with sex(Victim))</h3>
 <pre class="r"><code>vic_df %&gt;% 
   group_by(vic_age_group, vic_sex) %&gt;% 
   summarise(number_of_people = n()) %&gt;% 
@@ -571,11 +603,11 @@ div.tocify {
     y = &quot;Number of people&quot;,
     title = &quot;Total number of people in each age group with sex(Victim)&quot;
   )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;vic_age_group&#39;. You can override using the `.groups` argument.</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-15-1.png" width="90%" /></p>
-<ol start="6" style="list-style-type: decimal">
-<li>victim-race x age plot(Total number of people for each race with sex(Victim))</li>
-</ol>
+<p>Conclusion: In 2020, female from 25 to 44 have the highest victimization rates for all types of crime, while male who younger than 18 with race of native american have the lowest.</p>
+</div>
+<div id="victim-race-x-age-plottotal-number-of-people-for-each-race-with-sexvictim" class="section level3">
+<h3>6. victim-race x age plot(Total number of people for each race with sex(Victim))</h3>
 <pre class="r"><code>vic_df %&gt;% 
   group_by(vic_race, vic_sex) %&gt;% 
   summarise(number_of_people = n()) %&gt;%
@@ -587,9 +619,13 @@ div.tocify {
     x = &quot;Race&quot;,
     y = &quot;Number of people&quot;,
     title = &quot;Total number of people for each race with sex(Victim)&quot;
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;vic_race&#39;. You can override using the `.groups` argument.</code></pre>
+  ) +
+  theme(
+      axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0.5),
+      legend.position = &quot;none&quot;)</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-16-1.png" width="90%" /></p>
+<p>Conclusion: In 2020, female with black race have the highest victimization rates for all types of crime, while female with race of native american have the lowest.</p>
+</div>
 </div>
 <div id="level-of-offense" class="section level2">
 <h2>Level of offense</h2>
@@ -611,7 +647,6 @@ level_of_offense_df %&gt;%
   names_from = &quot;month&quot;, 
   values_from = &quot;total_activity&quot;) %&gt;% 
   knitr::kable()</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;month&#39;. You can override using the `.groups` argument.</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -697,8 +732,8 @@ level_of_offense_df %&gt;%
     breaks = c(0, 2, 4, 6, 8, 10, 12), 
     labels = c(0, 2, 4, 6, 8, 10, 12)
   )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;month&#39;. You can override using the `.groups` argument.</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-19-1.gif" width="90%" /></p>
+<p>Conclusion: From the gif related to the level of offense, we can see misdemeanor happen the most, while violation happen the least. In addition, January has the highest incidence of all types of crime, while April has the lowest incidence.</p>
 <pre class="r"><code># level_of_offense by district
 level_of_offense_df %&gt;%
   group_by(name_of_borough, level_of_offense) %&gt;% 
@@ -709,9 +744,12 @@ level_of_offense_df %&gt;%
     x = &quot;Borough&quot;,
     y = &quot;Count&quot;,
     title = &quot;Count of offense events in each borough&quot;
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;name_of_borough&#39;. You can override using the `.groups` argument.</code></pre>
+  ) +
+  theme(
+      axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 0.5),
+      legend.position = &quot;none&quot;)</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-20-1.png" width="90%" /></p>
+<p>Conclusion: The borough of bronx, brooklyn, and manhattan have a similarly high crime rate of all three types of offense events. The staten island has the lowest rate of all three types of crimes.</p>
 <pre class="r"><code># level_of_offense by age
 level_of_offense_df %&gt;%
   group_by(susp_age_group, level_of_offense) %&gt;% 
@@ -723,8 +761,8 @@ level_of_offense_df %&gt;%
     y = &quot;Count&quot;,
     title = &quot;Count of offense events for each age group&quot;
   )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;susp_age_group&#39;. You can override using the `.groups` argument.</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-21-1.png" width="90%" /></p>
+<p>Conclusion: Persons between the ages of 25 to 44 have the highest crime rates for all types of offense events, while those age 65 or older have the lowest.</p>
 <pre class="r"><code># level_of_offense by race
 level_of_offense_df %&gt;%
   group_by(susp_race, level_of_offense) %&gt;% 
@@ -735,9 +773,12 @@ level_of_offense_df %&gt;%
     x = &quot;Race&quot;,
     y = &quot;Count&quot;,
     title = &quot;Count of offense events by race&quot;
-  )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;susp_race&#39;. You can override using the `.groups` argument.</code></pre>
+  ) +
+  theme(
+      axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0.5),
+      legend.position = &quot;none&quot;)</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-22-1.png" width="90%" /></p>
+<p>Conclusion: Black race have the highest crime rates for all types of offense events, while native american have the lowest.</p>
 <pre class="r"><code># level_of_offense by sex
 level_of_offense_df %&gt;%
   group_by(susp_sex, level_of_offense) %&gt;% 
@@ -749,9 +790,8 @@ level_of_offense_df %&gt;%
     y = &quot;Count&quot;,
     title = &quot;Count of offense events by sex&quot;
   )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;susp_sex&#39;. You can override using the `.groups` argument.</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-23-1.png" width="90%" /></p>
-</div>
+<p>Conclusion: Male have the highest crime rates for all types of offense events.</p>
 </div>
 
 
@@ -789,6 +829,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {
