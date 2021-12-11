@@ -1,8 +1,10 @@
-name: "Yay internet!"
+name: "site"
 output_dir: "."
 navbar:
   title: "Home"
   left:
+    - text: "Dashboard"
+      href: Shiny_Dashboard.html
     - text: 'Data'
       href: Data-resources.html
     - text: 'Data Analysis'
