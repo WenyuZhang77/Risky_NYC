@@ -9,10 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Yiming Li" />
+<meta name="author" content="Wenyu Zhang and Weize Sun" />
 
 
-<title>Time Line</title>
+<title>DATA</title>
 
 <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -324,14 +324,6 @@ div.tocify {
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<<<<<<< HEAD
-        <li>
-  <a href="Shiny_Dashboard.html">Dashboard</a>
-</li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-=======
->>>>>>> 5c66bae1f47ff2c1fee1809fea358090f359785b
         <li>
   <a href="Data-resources.html">Data</a>
 </li>
@@ -393,20 +385,32 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Time Line</h1>
-<h4 class="author">Yiming Li</h4>
+<h1 class="title toc-ignore">DATA</h1>
+<h4 class="author">Wenyu Zhang and Weize Sun</h4>
 
 </div>
 
 
-<div id="data" class="section level2">
-<h2>2016 - 2020 data</h2>
-<pre class="r"><code>time_count_df_2016 %&gt;% 
-  ggplot(aes(x = date, y = count, color = name_of_borough)) +
-  geom_point(alpha = 0.05) +
-  geom_smooth(se = FALSE)</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
-<p><img src="time-line_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
+<div id="data-source" class="section level2">
+<h2>Data source</h2>
+<p>The data was collected from NYC open data, which is about NYPD Complaint Data Historic. This dataset includes all valid felony, misdemeanor, and violation crimes reported to the New York City Police Department (NYPD) from 2006 to the end of last year (2020). The data was collected annually. The dataset has 7.38M rows and 35 variables; each row is a complaint.</p>
+<p>Feel free to check the data in <a href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i">NYC OpenData</a></p>
+</div>
+<div id="variables-of-interest" class="section level2">
+<h2>Variables of interest</h2>
+<p>While cleaning data, we mutated the original variables to variables which could be easily understood. Below are the mutated key variables.</p>
+<p><code>month</code></p>
+<p><code>day</code></p>
+<p><code>exact_crime_time</code>: the exact time of occurrence for the reported crime.</p>
+<p><code>description_of_crime</code></p>
+<p><code>level_of_offence</code>: felony, misdemeanor, or violation.</p>
+<p><code>name_of_borough</code>: Bronx, Brooklyn, Manhattan, Queens, and Staten Island.</p>
+<p><code>susp_age_group</code>: suspect’s age group.</p>
+<p><code>susp_race</code>: suspect’s race.</p>
+<p><code>susp_sex</code>: suspect’s gender.</p>
+<p><code>vic_age_group</code>: victim’s age group.</p>
+<p><code>vic_race</code>: victim’s race.</p>
+<p><code>vic_sex</code>: victim’s gender.</p>
 </div>
 
 

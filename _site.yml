@@ -3,11 +3,14 @@ output_dir: "."
 navbar:
   title: "Home"
   left:
+<<<<<<< HEAD
     - text: "Dashboard"
       href: Shiny_Dashboard.html
   right:
+=======
+>>>>>>> 5c66bae1f47ff2c1fee1809fea358090f359785b
     - text: 'Data'
-      href: https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i
+      href: Data-resources.html
     - text: 'Data Analysis'
       menu:
         - text: 'Analysis'
@@ -16,16 +19,20 @@ navbar:
           href: Regression-Analysis.html
     - text: 'Plot'
       href: Plot.html
+    - text: "Map"
+      href: 2020heatmap.html
+    - text: "Time Line"
+      href: time-line.html
+  right:
     - text: "About US"
       href: about.html
     - icon: fa-envelope fa-lg
       href: mailto:<wz2591@cumc.columbia.edu>
     - icon: fa-github fa-lg
-      href: http://github.com/WenyuZhang77
-    - text: "Map"
-      href: 2020heatmap.html
+      href: https://github.com/WenyuZhang77/Risky_NYC
 output:
   html_document:
+    code_folding: hide
     theme: flatly
 
     

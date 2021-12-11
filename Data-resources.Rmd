@@ -1,0 +1,44 @@
+---
+title: "DATA"
+author: "Wenyu Zhang and Weize Sun"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+## Data source
+
+The data was collected from NYC open data, which is about NYPD Complaint Data Historic. This dataset includes all valid felony, misdemeanor, and violation crimes reported to the New York City Police Department (NYPD) from 2006 to the end of last year (2020). The data was collected annually. The dataset has 7.38M rows and 35 variables; each row is a complaint.
+
+Feel free to check the data in [NYC OpenData](https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i)
+
+## Variables of interest
+While cleaning data, we mutated the original variables to variables which could be easily understood. Below are the mutated key variables.
+
+`month`
+
+`day`
+
+`exact_crime_time`: the exact time of occurrence for the reported crime.
+
+`description_of_crime`
+
+`level_of_offence`: felony, misdemeanor, or violation.
+
+`name_of_borough`: Bronx, Brooklyn, Manhattan, Queens, and Staten Island.
+
+`susp_age_group`: suspect’s age group.
+
+`susp_race`: suspect’s race.
+
+`susp_sex`: suspect’s gender.
+
+`vic_age_group`: victim’s age group.
+
+`vic_race`: victim’s race.
+
+`vic_sex`: victim’s gender.
+
+
+
