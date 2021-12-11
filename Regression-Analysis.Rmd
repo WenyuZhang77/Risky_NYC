@@ -67,8 +67,6 @@ clean_regression
 # run proportional odds model
 model <- polr(formula = level_of_offense ~ susp_age_group + susp_race + susp_sex + name_of_borough, data = clean_regression)
 
-# get summary
-summary(model)
 ```
 
 When there are more than two outcome categories with an order, proportional odds logistic
@@ -81,13 +79,33 @@ with an order (felony is the most severe crime whereas violation is the minor of
 ## Proportional Odds Logistic Regression
 
 ```{r, message=FALSE}
-ctable <- coef(summary(model))
-## calculate and store p values
-p <- pnorm(abs(ctable[, "t value"]), lower.tail = FALSE) * 2
+# get coefficients (it's in matrix form)
+coefficients <- summary(model)$coefficients
 
-## combined table
-(ctable <- cbind(ctable, "p value" = p))
+# calculate p-values
+p_value <- (1 - pnorm(abs(coefficients[ ,"t value"]), 0, 1))*2
+
+# bind back to coefficients
+coefficients <- cbind(coefficients, p_value)
+odds_ratio <- exp(coefficients[ ,"Value"])
+
+# combine with coefficient and p_value
+(coefficients <- cbind(
+  coefficients[ ,c("Value", "p_value")],
+  odds_ratio
+))%>% 
+  knitr::kable(digits = 3)
 ```
+
+### Interpretation
+
+Male suspect have approximately 87% higher odds of greater level of offense compared to Female suspect.
+
+Suspect who in age group 18-24 have the highest odds ratio among all age groups, that is approximately 29% higher odds of greater level of offense compared to suspect under age 18.
+
+Suspect who are black hispanic have the highest odds ratio among all race groups, that is approximately 86.69% higher odds of greater level of offense compared to suspect that are American Indian/Alaskan native.
+
+The borough Manhattan have the highest odds ratio among all boroughs, that is approximately 19.69% higher odds of greater level of offense compared to Bronx.
 
 ## Reference
 
