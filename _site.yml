@@ -16,7 +16,7 @@ navbar:
     - text: 'Plot'
       href: Plot.html
     - text: "Map"
-      href: 2020heatmap.html
+      href: map.html
     - text: "Time Line"
       href: time-line.html
   right:
@@ -30,6 +30,8 @@ output:
   html_document:
     code_folding: hide
     theme: flatly
+    toc : true
+    toc_float: true
 
     
 

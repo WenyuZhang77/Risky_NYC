@@ -93,7 +93,7 @@ odds_ratio <- exp(coefficients[ ,"Value"])
 (coefficients <- cbind(
   coefficients[ ,c("Value", "p_value")],
   odds_ratio
-))%>% 
+)) %>% 
   knitr::kable(digits = 3)
 ```
 
