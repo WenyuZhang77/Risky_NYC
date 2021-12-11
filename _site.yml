@@ -3,6 +3,12 @@ output_dir: "."
 navbar:
   title: "Home"
   left:
+<<<<<<< HEAD
+    - text: "Dashboard"
+      href: Shiny_Dashboard.html
+  right:
+=======
+>>>>>>> 5c66bae1f47ff2c1fee1809fea358090f359785b
     - text: 'Data'
       href: Data-resources.html
     - text: 'Data Analysis'
