@@ -97,7 +97,7 @@ Conclusion:
 
 At significance level 0.05, since p-value < 2.2e-16 < 0.05,we reject the null hypothesis and conclude that there is association between level of offense and suspect’s race.
 
-### 3. Do chi-squared test to test suspect gender and level of offense
+### 3. Do chi-squared test to test suspect age group and level of offense
 
 $H_0$: there is no association between level of offense and suspect’s age group
 
