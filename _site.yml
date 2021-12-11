@@ -21,7 +21,7 @@ navbar:
       href: time-line.html
   right:
     - text: "Project Report"
-      href: about.html
+      href: report.html
     - icon: fa-envelope fa-lg
       href: mailto:<wz2591@cumc.columbia.edu>
     - icon: fa-github fa-lg
