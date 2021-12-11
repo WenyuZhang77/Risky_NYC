@@ -64,8 +64,9 @@ dat_clean1 =
   mutate(level_of_offense = as.factor(level_of_offense)) %>%
   mutate(susp_race = as.factor(susp_sex))
 
-table(dat_clean1$level_of_offense, dat_clean1$susp_sex)
-chisq.test(table(dat_clean1$level_of_offense, dat_clean1$susp_sex), correct = F)
+table(dat_clean1$level_of_offense, dat_clean1$susp_sex) %>% 
+  knitr::kable(digits = 3)
+chisq.test(table(dat_clean1$level_of_offense, dat_clean1$susp_sex), correct = F) 
 ```
 
 Conclusion:
@@ -86,8 +87,10 @@ dat_clean2 =
   mutate(level_of_offense = as.factor(level_of_offense)) %>%
   mutate(susp_race = as.factor(susp_race))
 
-table(dat_clean2$level_of_offense, dat_clean2$susp_race)
-chisq.test(table(dat_clean2$level_of_offense, dat_clean2$susp_race), correct = F)
+table(dat_clean2$level_of_offense, dat_clean2$susp_race) %>% 
+  knitr::kable(digits = 3)
+chisq.test(table(dat_clean2$level_of_offense, dat_clean2$susp_race), correct = F) 
+
 ```
 
 Conclusion:
