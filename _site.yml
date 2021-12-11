@@ -16,7 +16,7 @@ navbar:
     - text: 'Plot'
       href: Plot.html
     - text: "Map"
-      href: map.html
+      href: 2020heatmap.html
     - text: "Time Line"
       href: time-line.html
   right:
