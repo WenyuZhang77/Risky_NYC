@@ -513,6 +513,56 @@ div.tocify {
 <p>Conclusion:</p>
 <p>At significance level 0.05, since p-value &lt; 2.2e-16 &lt; 0.05,we reject the null hypothesis and conclude that there is association between level of offense and suspect’s race.</p>
 </div>
+<div id="do-chi-squared-test-to-test-suspect-gender-and-level-of-offense-1" class="section level3">
+<h3>3. Do chi-squared test to test suspect gender and level of offense</h3>
+<p><span class="math inline">\(H_0\)</span>: there is no association between level of offense and suspect’s age group</p>
+<p><span class="math inline">\(H_1\)</span>: there is association between level of offense and suspect’s age group</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">&lt;18</th>
+<th align="right">18-24</th>
+<th align="right">25-44</th>
+<th align="right">45-64</th>
+<th align="right">65+</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">FELONY</td>
+<td align="right">2012</td>
+<td align="right">10188</td>
+<td align="right">28689</td>
+<td align="right">8054</td>
+<td align="right">558</td>
+</tr>
+<tr class="even">
+<td align="left">MISDEMEANOR</td>
+<td align="right">2876</td>
+<td align="right">13876</td>
+<td align="right">48715</td>
+<td align="right">15292</td>
+<td align="right">1160</td>
+</tr>
+<tr class="odd">
+<td align="left">VIOLATION</td>
+<td align="right">1575</td>
+<td align="right">5121</td>
+<td align="right">21388</td>
+<td align="right">9809</td>
+<td align="right">1478</td>
+</tr>
+</tbody>
+</table>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  table(dat_clean3$level_of_offense, dat_clean3$susp_age_group)
+## X-squared = 2763.4, df = 8, p-value &lt; 2.2e-16</code></pre>
+<p>Conclusion:</p>
+<p>At significance level 0.05, since p-value &lt; 2.2e-16 &lt; 0.05,we reject the null hypothesis and conclude that there is association between level of offense and suspect’s age group.</p>
+</div>
 </div>
 <div id="anova-test" class="section level2">
 <h2>ANOVA test</h2>

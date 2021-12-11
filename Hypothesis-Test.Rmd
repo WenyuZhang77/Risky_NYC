@@ -97,6 +97,30 @@ Conclusion:
 
 At significance level 0.05, since p-value < 2.2e-16 < 0.05,we reject the null hypothesis and conclude that there is association between level of offense and suspect’s race.
 
+### 3. Do chi-squared test to test suspect gender and level of offense
+
+$H_0$: there is no association between level of offense and suspect’s age group
+
+$H_1$: there is association between level of offense and suspect’s age group
+
+```{r, echo = FALSE, message=FALSE,warning = FALSE}
+dat_clean3 =
+  dat %>%
+  filter(!(susp_age_group == ""),
+         !(susp_age_group == "UNKNOWN")) %>%
+  filter((susp_age_group == "25-44") | (susp_age_group == "45-64") | (susp_age_group == "18-24") | (susp_age_group == "65+") | (susp_age_group == "<18")) %>%
+  mutate(level_of_offense = as.factor(level_of_offense)) %>%
+  mutate(susp_race = as.factor(susp_age_group))
+
+table(dat_clean3$level_of_offense, dat_clean3$susp_age_group) %>% 
+  knitr::kable(digits = 3)
+chisq.test(table(dat_clean3$level_of_offense, dat_clean3$susp_age_group), correct = F) 
+```
+
+Conclusion:
+
+At significance level 0.05, since p-value < 2.2e-16 < 0.05,we reject the null hypothesis and conclude that there is association between level of offense and suspect’s age group.
+
 ## ANOVA test
 
 ```{r, echo = FALSE, message=FALSE,warning = FALSE}
