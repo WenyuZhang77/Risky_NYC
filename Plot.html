@@ -14,8 +14,8 @@
 
 <title>Plot</title>
 
-<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
-<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -349,7 +349,7 @@ div.tocify {
   <a href="Plot.html">Plot</a>
 </li>
 <li>
-  <a href="2020heatmap.html">Map</a>
+  <a href="map.html">Map</a>
 </li>
 <li>
   <a href="time-line.html">Time Line</a>
@@ -394,18 +394,24 @@ div.tocify {
 </div>
 
 
-<div id="suspect-plot" class="section level2">
-<h2>Suspect plot</h2>
+<div id="data-explanation" class="section level2">
+<h2>Data Explanation</h2>
+</div>
+<div id="data-visualization" class="section level2">
+<h2>Data Visualization</h2>
+<div id="suspect-plot" class="section level3 tabset">
+<h3 class="tabset">Suspect plot</h3>
 <pre class="r"><code>susp_df = df20_tidy %&gt;% 
   select(susp_age_group, susp_race, susp_sex) %&gt;% 
   filter(!is.na(.)) %&gt;% 
   filter(!(susp_age_group == &quot;UNKNOWN&quot;), 
          !(susp_race == &quot;UNKNOWN&quot;), 
          !(susp_sex == &quot;UNKNOWN&quot;), 
-         !(susp_sex == &quot;U&quot;))</code></pre>
-<div id="suspect-age-plot-total-number-of-people-in-each-age-groupsuspect" class="section level3">
-<h3>1. Suspect-age plot (Total number of people in each age group(Suspect))</h3>
-<pre class="r"><code>susp_df %&gt;% 
+         !(susp_sex == &quot;U&quot;))
+
+
+susp_age =
+  susp_df %&gt;% 
   group_by(susp_age_group) %&gt;% 
   summarise(count = n()) %&gt;% 
   filter(susp_age_group == &quot;&lt;18&quot; | susp_age_group == &quot;18-24&quot; | susp_age_group == &quot;25-44&quot; | susp_age_group == &quot;45-64&quot; | susp_age_group == &quot;65+&quot;) %&gt;% 
@@ -416,13 +422,11 @@ div.tocify {
     x = &quot;Age group&quot;,
     y = &quot;Number of people&quot;,
     title = &quot;Total number of people in each age group(Suspect)&quot;
-  )</code></pre>
-<p><img src="Plot_files/figure-html/unnamed-chunk-4-1.png" width="90%" /></p>
-<p>Conclusion: In 2020, persons between the ages of 25 to 44 have the highest crime rates for all types of offense events, while those age 65 or older have the lowest.</p>
-</div>
-<div id="suspect-race-plot-total-number-of-people-for-each-racesuspect" class="section level3">
-<h3>2. Suspect-race plot (Total number of people for each race(Suspect))</h3>
-<pre class="r"><code>susp_df %&gt;% 
+  )
+
+
+susp_race =
+  susp_df %&gt;% 
   group_by(susp_race) %&gt;% 
   summarise(count = n()) %&gt;% 
   mutate(susp_race = factor(susp_race), 
@@ -437,13 +441,10 @@ div.tocify {
   ) +
   theme(
       axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0.5),
-      legend.position = &quot;none&quot;)</code></pre>
-<p><img src="Plot_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
-<p>Conclusion: In 2020, black race have the highest crime rates for all types of offense events, while native american have the lowest.</p>
-</div>
-<div id="suspect-sex-plot-total-number-of-people-in-each-sex-groupsuspect" class="section level3">
-<h3>3. Suspect-sex plot (Total number of people in each sex group(Suspect))</h3>
-<pre class="r"><code>susp_df %&gt;% 
+      legend.position = &quot;none&quot;)
+
+susp_sex = 
+  susp_df %&gt;% 
   group_by(susp_sex) %&gt;% 
   summarise(count = n()) %&gt;% 
    ggplot(
@@ -453,13 +454,10 @@ div.tocify {
     x = &quot;Sex&quot;,
     y = &quot;Number of people&quot;,
     title = &quot;Total number of people in each sex group(Suspect)&quot;
-  ) </code></pre>
-<p><img src="Plot_files/figure-html/unnamed-chunk-6-1.png" width="90%" /></p>
-<p>Conclusion: In 2020, male have the highest crime rates for all types of offense events.</p>
-</div>
-<div id="suspect-age-x-race-plot-total-number-of-people-in-each-age-group-with-racesuspect" class="section level3">
-<h3>4. Suspect-age x race plot (Total number of people in each age group with race(Suspect))</h3>
-<pre class="r"><code>susp_df %&gt;% 
+  ) 
+
+susp_agexrace = 
+  susp_df %&gt;% 
   group_by(susp_age_group, susp_race) %&gt;% 
   summarise(number_of_people = n()) %&gt;% 
   filter(susp_age_group == &quot;&lt;18&quot; | susp_age_group == &quot;18-24&quot; | susp_age_group == &quot;25-44&quot; | susp_age_group == &quot;45-64&quot; | susp_age_group == &quot;65+&quot;) %&gt;% 
@@ -470,13 +468,11 @@ div.tocify {
     x = &quot;Age group&quot;,
     y = &quot;Number of people&quot;,
     title = &quot;Total number of people in each age group with race(Suspect)&quot;
-  )</code></pre>
-<p><img src="Plot_files/figure-html/unnamed-chunk-7-1.png" width="90%" /></p>
-<p>Conclusion: In 2020, persons from 25 to 44 with black race have the highest crime rates for all types of offense events, while those who age above 65 with race of native american have the lowest.</p>
-</div>
-<div id="suspect-age-x-sex-plot-total-number-of-people-in-each-age-group-with-sexsuspect" class="section level3">
-<h3>5. Suspect-age x sex plot (Total number of people in each age group with sex(Suspect))</h3>
-<pre class="r"><code>susp_df %&gt;% 
+  )
+
+
+susp_agexsex = 
+  susp_df %&gt;% 
   group_by(susp_age_group, susp_sex) %&gt;% 
   summarise(number_of_people = n()) %&gt;% 
   filter(susp_age_group == &quot;&lt;18&quot; | susp_age_group == &quot;18-24&quot; | susp_age_group == &quot;25-44&quot; | susp_age_group == &quot;45-64&quot; | susp_age_group == &quot;65+&quot;) %&gt;% 
@@ -488,13 +484,10 @@ div.tocify {
     x = &quot;Age group&quot;,
     y = &quot;Number of people&quot;,
     title = &quot;Total number of people in each age group with sex(Suspect)&quot;
-  )</code></pre>
-<p><img src="Plot_files/figure-html/unnamed-chunk-8-1.png" width="90%" /></p>
-<p>Conclusion: In 2020, male from 25 to 44 have the highest crime rates for all types of offense events, while female who age above 65 have the lowest.</p>
-</div>
-<div id="suspect-race-x-age-plot-total-number-of-people-for-each-race-with-sexsuspect" class="section level3">
-<h3>6. Suspect-race x age plot (Total number of people for each race with sex(Suspect))</h3>
-<pre class="r"><code>susp_df %&gt;% 
+  )
+
+susp_racexsex = 
+  susp_df %&gt;% 
   group_by(susp_race, susp_sex) %&gt;% 
   summarise(number_of_people = n()) %&gt;%
   mutate(susp_race = factor(susp_race), 
@@ -511,21 +504,49 @@ div.tocify {
   theme(
       axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0.5),
       legend.position = &quot;none&quot;)</code></pre>
+<div id="age" class="section level4">
+<h4>Age</h4>
+<pre class="r"><code>susp_age</code></pre>
+<p><img src="Plot_files/figure-html/unnamed-chunk-4-1.png" width="90%" /></p>
+</div>
+<div id="race" class="section level4">
+<h4>Race</h4>
+<pre class="r"><code>susp_race</code></pre>
+<p><img src="Plot_files/figure-html/unnamed-chunk-5-1.png" width="90%" /></p>
+</div>
+<div id="sex" class="section level4">
+<h4>Sex</h4>
+<pre class="r"><code>susp_sex</code></pre>
+<p><img src="Plot_files/figure-html/unnamed-chunk-6-1.png" width="90%" /></p>
+</div>
+<div id="age-x-race" class="section level4">
+<h4>Age x Race</h4>
+<pre class="r"><code>susp_agexrace</code></pre>
+<p><img src="Plot_files/figure-html/unnamed-chunk-7-1.png" width="90%" /></p>
+</div>
+<div id="age-x-sex" class="section level4">
+<h4>Age x Sex</h4>
+<pre class="r"><code>susp_agexsex</code></pre>
+<p><img src="Plot_files/figure-html/unnamed-chunk-8-1.png" width="90%" /></p>
+</div>
+<div id="race-x-sex" class="section level4">
+<h4>Race x Sex</h4>
+<pre class="r"><code>susp_racexsex</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-9-1.png" width="90%" /></p>
-<p>Conclusion: In 2020, male with black race have the highest crime rates for all types of offense events, while female with the race of native american have the lowest.</p>
 </div>
 </div>
-<div id="victim-plot" class="section level2">
-<h2>Victim plot</h2>
+<div id="victim-plot" class="section level3 tabset">
+<h3 class="tabset">Victim plot</h3>
 <pre class="r"><code>vic_df = df20_tidy %&gt;% 
   select(vic_age_group, vic_race, vic_sex) %&gt;% 
   filter(!is.na(.)) %&gt;% 
   filter(!(vic_age_group == &quot;UNKNOWN&quot;), !(vic_race == &quot;UNKNOWN&quot;), !(vic_sex == &quot;UNKNOWN&quot;), !(vic_sex == &quot;U&quot;)) %&gt;% 
   filter(vic_age_group == &quot;&lt;18&quot; | vic_age_group == &quot;18-24&quot; | vic_age_group == &quot;25-44&quot; | vic_age_group == &quot;45-64&quot; | vic_age_group == &quot;65+&quot;) %&gt;% 
-  filter(vic_sex == &quot;F&quot; | vic_sex == &quot;M&quot;)</code></pre>
-<div id="victim-age-plottotal-number-of-people-in-each-age-groupvictim" class="section level3">
-<h3>1. victim-age plot(Total number of people in each age group(Victim))</h3>
-<pre class="r"><code>vic_df %&gt;% 
+  filter(vic_sex == &quot;F&quot; | vic_sex == &quot;M&quot;)
+
+
+vic_age =
+  vic_df %&gt;% 
   group_by(vic_age_group) %&gt;% 
   summarise(count = n()) %&gt;% 
    ggplot(
@@ -535,13 +556,9 @@ div.tocify {
     x = &quot;Age group&quot;,
     y = &quot;Number of people&quot;,
     title = &quot;Total number of people in each age group(Victim)&quot;
-  )</code></pre>
-<p><img src="Plot_files/figure-html/unnamed-chunk-11-1.png" width="90%" /></p>
-<p>Conclusion: In 2020, persons between the ages of 25 and 44 have the highest victimization rates for all types of crime, while those age 65 or older have the lowest.</p>
-</div>
-<div id="victim-race-plottotal-number-of-people-for-each-racevictim" class="section level3">
-<h3>2. victim-race plot(Total number of people for each race(Victim))</h3>
-<pre class="r"><code>vic_df %&gt;% 
+  )
+vic_race =
+  vic_df %&gt;% 
   group_by(vic_race) %&gt;% 
   summarise(count = n()) %&gt;% 
   mutate(vic_race = factor(vic_race), 
@@ -556,13 +573,9 @@ div.tocify {
   ) +
   theme(
       axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0.5),
-      legend.position = &quot;none&quot;)</code></pre>
-<p><img src="Plot_files/figure-html/unnamed-chunk-12-1.png" width="90%" /></p>
-<p>Conclusion: In 2020, persons with black race have the highest victimization rates for all types of crime, while native american have the lowest.</p>
-</div>
-<div id="victim-sex-plottotal-number-of-people-in-each-sex-groupvictim" class="section level3">
-<h3>3. victim-sex plot(Total number of people in each sex group(Victim))</h3>
-<pre class="r"><code>vic_df %&gt;% 
+      legend.position = &quot;none&quot;)
+vic_sex =
+  vic_df %&gt;% 
   group_by(vic_sex) %&gt;% 
   summarise(count = n()) %&gt;% 
   ggplot(
@@ -572,13 +585,9 @@ div.tocify {
     x = &quot;Sex&quot;,
     y = &quot;Number of people&quot;,
     title = &quot;Total number of people in each sex group(Victim)&quot;
-  )</code></pre>
-<p><img src="Plot_files/figure-html/unnamed-chunk-13-1.png" width="90%" /></p>
-<p>Conclusion: In 2020, female have the highest victimization rates for all types of crime, but the victimization rates of both gender are similar.</p>
-</div>
-<div id="victim-age-x-race-plottotal-number-of-people-in-each-age-group-with-racevictim" class="section level3">
-<h3>4. victim-age x race plot(Total number of people in each age group with race(Victim))</h3>
-<pre class="r"><code>vic_df %&gt;% 
+  )
+vic_agexrace =
+  vic_df %&gt;% 
   group_by(vic_age_group, vic_race) %&gt;% 
   summarise(number_of_people = n()) %&gt;%
   ggplot(
@@ -588,13 +597,9 @@ div.tocify {
     x = &quot;Age group&quot;,
     y = &quot;Number of people&quot;,
     title = &quot;Total number of people in each age group with race(Victim)&quot;
-  )</code></pre>
-<p><img src="Plot_files/figure-html/unnamed-chunk-14-1.png" width="90%" /></p>
-<p>Conclusion: In 2020, persons from 25 to 44 with black race have the highest victimization rates for all types of crime, while persons who younger than 18 with race of native american have the lowest.</p>
-</div>
-<div id="victim-age-x-sex-plottotal-number-of-people-in-each-age-group-with-sexvictim" class="section level3">
-<h3>5. victim-age x sex plot(Total number of people in each age group with sex(Victim))</h3>
-<pre class="r"><code>vic_df %&gt;% 
+  )
+vic_agexsex =
+  vic_df %&gt;% 
   group_by(vic_age_group, vic_sex) %&gt;% 
   summarise(number_of_people = n()) %&gt;% 
   ggplot(
@@ -605,13 +610,9 @@ div.tocify {
     x = &quot;Age group&quot;,
     y = &quot;Number of people&quot;,
     title = &quot;Total number of people in each age group with sex(Victim)&quot;
-  )</code></pre>
-<p><img src="Plot_files/figure-html/unnamed-chunk-15-1.png" width="90%" /></p>
-<p>Conclusion: In 2020, female from 25 to 44 have the highest victimization rates for all types of crime, while male who younger than 18 with race of native american have the lowest.</p>
-</div>
-<div id="victim-race-x-age-plottotal-number-of-people-for-each-race-with-sexvictim" class="section level3">
-<h3>6. victim-race x age plot(Total number of people for each race with sex(Victim))</h3>
-<pre class="r"><code>vic_df %&gt;% 
+  )
+vic_racexsex =
+  vic_df %&gt;% 
   group_by(vic_race, vic_sex) %&gt;% 
   summarise(number_of_people = n()) %&gt;%
   ggplot(
@@ -626,12 +627,39 @@ div.tocify {
   theme(
       axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0.5),
       legend.position = &quot;none&quot;)</code></pre>
+<div id="age-1" class="section level4">
+<h4>Age</h4>
+<pre class="r"><code>vic_age</code></pre>
+<p><img src="Plot_files/figure-html/unnamed-chunk-11-1.png" width="90%" /></p>
+</div>
+<div id="race-1" class="section level4">
+<h4>Race</h4>
+<pre class="r"><code>vic_race</code></pre>
+<p><img src="Plot_files/figure-html/unnamed-chunk-12-1.png" width="90%" /></p>
+</div>
+<div id="sex-1" class="section level4">
+<h4>Sex</h4>
+<pre class="r"><code>vic_sex</code></pre>
+<p><img src="Plot_files/figure-html/unnamed-chunk-13-1.png" width="90%" /></p>
+</div>
+<div id="age-x-race-1" class="section level4">
+<h4>Age x Race</h4>
+<pre class="r"><code>vic_agexrace</code></pre>
+<p><img src="Plot_files/figure-html/unnamed-chunk-14-1.png" width="90%" /></p>
+</div>
+<div id="age-x-sex-1" class="section level4">
+<h4>Age x Sex</h4>
+<pre class="r"><code>vic_agexsex</code></pre>
+<p><img src="Plot_files/figure-html/unnamed-chunk-15-1.png" width="90%" /></p>
+</div>
+<div id="race-x-sex-1" class="section level4">
+<h4>Race x Sex</h4>
+<pre class="r"><code>vic_racexsex</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-16-1.png" width="90%" /></p>
-<p>Conclusion: In 2020, female with black race have the highest victimization rates for all types of crime, while female with race of native american have the lowest.</p>
 </div>
 </div>
-<div id="level-of-offense" class="section level2">
-<h2>Level of offense</h2>
+<div id="level-of-offense" class="section level3 tabset">
+<h3 class="tabset">Level of offense</h3>
 <pre class="r"><code>level_of_offense_df = 
   df20_tidy %&gt;% 
   select(month, day, year, level_of_offense, name_of_borough, susp_age_group, susp_race, susp_sex) %&gt;% 
@@ -736,9 +764,8 @@ level_of_offense_df %&gt;%
     labels = c(0, 2, 4, 6, 8, 10, 12)
   )</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-19-1.gif" width="90%" /></p>
-<p>Conclusion: From the gif related to the level of offense, we can see misdemeanor happen the most, while violation happen the least. In addition, January has the highest incidence of all types of crime, while April has the lowest incidence.</p>
-<pre class="r"><code># level_of_offense by district
-level_of_offense_df %&gt;%
+<pre class="r"><code>offense_borough = 
+  level_of_offense_df %&gt;%
   group_by(name_of_borough, level_of_offense) %&gt;% 
   summarise(count = n()) %&gt;% 
   ggplot(aes(x = name_of_borough, y = count, color = level_of_offense, fill = level_of_offense)) + 
@@ -750,11 +777,11 @@ level_of_offense_df %&gt;%
   ) +
   theme(
       axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 0.5),
-      legend.position = &quot;none&quot;)</code></pre>
-<p><img src="Plot_files/figure-html/unnamed-chunk-20-1.png" width="90%" /></p>
-<p>Conclusion: The borough of bronx, brooklyn, and manhattan have a similarly high crime rate of all three types of offense events. The staten island has the lowest rate of all three types of crimes.</p>
-<pre class="r"><code># level_of_offense by age
-level_of_offense_df %&gt;%
+      legend.position = &quot;none&quot;)
+
+
+offense_age = 
+  level_of_offense_df %&gt;%
   group_by(susp_age_group, level_of_offense) %&gt;% 
   summarise(count = n()) %&gt;% 
   ggplot(aes(x = susp_age_group, y = count, color = level_of_offense, fill = level_of_offense)) + 
@@ -763,11 +790,11 @@ level_of_offense_df %&gt;%
     x = &quot;Age group&quot;,
     y = &quot;Count&quot;,
     title = &quot;Count of offense events for each age group&quot;
-  )</code></pre>
-<p><img src="Plot_files/figure-html/unnamed-chunk-21-1.png" width="90%" /></p>
-<p>Conclusion: Persons between the ages of 25 to 44 have the highest crime rates for all types of offense events, while those age 65 or older have the lowest.</p>
-<pre class="r"><code># level_of_offense by race
-level_of_offense_df %&gt;%
+  )
+
+
+offense_race = 
+  level_of_offense_df %&gt;%
   group_by(susp_race, level_of_offense) %&gt;% 
   summarise(count = n()) %&gt;% 
   ggplot(aes(x = susp_race, y = count, color = level_of_offense, fill = level_of_offense)) + 
@@ -779,11 +806,11 @@ level_of_offense_df %&gt;%
   ) +
   theme(
       axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0.5),
-      legend.position = &quot;none&quot;)</code></pre>
-<p><img src="Plot_files/figure-html/unnamed-chunk-22-1.png" width="90%" /></p>
-<p>Conclusion: Black race have the highest crime rates for all types of offense events, while native american have the lowest.</p>
-<pre class="r"><code># level_of_offense by sex
-level_of_offense_df %&gt;%
+      legend.position = &quot;none&quot;)
+
+
+offense_sex = 
+  level_of_offense_df %&gt;%
   group_by(susp_sex, level_of_offense) %&gt;% 
   summarise(count = n()) %&gt;% 
   ggplot(aes(x = susp_sex, y = count, color = level_of_offense, fill = level_of_offense)) + 
@@ -793,8 +820,27 @@ level_of_offense_df %&gt;%
     y = &quot;Count&quot;,
     title = &quot;Count of offense events by sex&quot;
   )</code></pre>
+<div id="borough" class="section level4">
+<h4>Borough</h4>
+<pre class="r"><code>offense_borough</code></pre>
+<p><img src="Plot_files/figure-html/unnamed-chunk-21-1.png" width="90%" /></p>
+</div>
+<div id="age-2" class="section level4">
+<h4>Age</h4>
+<pre class="r"><code>offense_age</code></pre>
+<p><img src="Plot_files/figure-html/unnamed-chunk-22-1.png" width="90%" /></p>
+</div>
+<div id="race-2" class="section level4">
+<h4>Race</h4>
+<pre class="r"><code>offense_race</code></pre>
 <p><img src="Plot_files/figure-html/unnamed-chunk-23-1.png" width="90%" /></p>
-<p>Conclusion: Male have the highest crime rates for all types of offense events.</p>
+</div>
+<div id="sex-2" class="section level4">
+<h4>Sex</h4>
+<pre class="r"><code>offense_sex</code></pre>
+<p><img src="Plot_files/figure-html/unnamed-chunk-24-1.png" width="90%" /></p>
+</div>
+</div>
 </div>
 
 
