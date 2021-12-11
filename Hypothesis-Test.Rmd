@@ -121,6 +121,9 @@ Conclusion:
 
 At significance level 0.05, since p-value < 2.2e-16 < 0.05,we reject the null hypothesis and conclude that there is association between level of offense and suspect’s age group.
 
+After doing the chi-square to the relationship between suspect age group,suspect gender, suspect race and their level of offense, we could conclude that there do exist relationships, and the relationships are significant. It suggests further regression analysis could be done to describe the specific relationship between suspect age group,suspect gender, suspect race and their level of offense.
+
+
 ## ANOVA test
 
 ```{r, echo = FALSE, message=FALSE,warning = FALSE}
@@ -178,5 +181,5 @@ Tukey_comp $ `factor(name_of_borough)` %>%
 
 Based on the result of ANOVA test, we reject the Null hypothesis at 99% confidence level and conclude that there’s at least two crime number amount means of boroughs are not equal.
 
-We use Tukey test for pairwise comparison. We notice the p adj for QUEENS-BRONX is 0.3851984, which means their mean values of crime number is very close to each other.
+We use Tukey test for pairwise comparison. We notice the p adj for QUEENS-BRONX is 0.3851984, which means their mean values of crime number is very close to each other. Except for QUEENS-BRONX, we discovered that practically all pairs of boroughs have distinct mean crime number amounts since p adj values for the Tukey test are equal to 0. We are 99 percent certain that the crime rate in BROOKLYN differs from that in other administrative regions. BROOKLYN has the highest crime rate when compared to other administrative regions. When we're in Brooklyn, we might want to be cautious.
 
