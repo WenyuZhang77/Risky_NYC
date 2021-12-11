@@ -46,14 +46,11 @@ df20_tidy =
   
 ```
 
-<<<<<<< HEAD
+
 # Data Visualization
 ### Suspect plot{.tabset}
 
-=======
-## Suspect plot
->>>>>>> 486b069a7432d46d6cbd4005c88c7ff70b958ac4
-```{r}
+```{r, warning=FALSE, message=FALSE}
 susp_df = df20_tidy %>% 
   select(susp_age_group, susp_race, susp_sex) %>% 
   filter(!is.na(.)) %>% 
@@ -61,11 +58,6 @@ susp_df = df20_tidy %>%
          !(susp_race == "UNKNOWN"), 
          !(susp_sex == "UNKNOWN"), 
          !(susp_sex == "U"))
-
-<<<<<<< HEAD
-=======
-### 1. Suspect-age plot (Total number of people in each age group(Suspect))
->>>>>>> 486b069a7432d46d6cbd4005c88c7ff70b958ac4
 
 
 susp_age =
@@ -82,12 +74,6 @@ susp_age =
     title = "Total number of people in each age group(Suspect)"
   )
 
-<<<<<<< HEAD
-=======
-Conclusion: In 2020, persons between the ages of 25 to 44 have the highest crime rates for all types of offense events, while those age 65 or older have the lowest.
-
-### 2. Suspect-race plot (Total number of people for each race(Suspect))
->>>>>>> 486b069a7432d46d6cbd4005c88c7ff70b958ac4
 
 susp_race =
   susp_df %>% 
@@ -106,15 +92,6 @@ susp_race =
   theme(
       axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0.5),
       legend.position = "none")
-<<<<<<< HEAD
-
-=======
-```
-
-Conclusion: In 2020, black race have the highest crime rates for all types of offense events, while native american have the lowest.
-
-### 3. Suspect-sex plot (Total number of people in each sex group(Suspect))
->>>>>>> 486b069a7432d46d6cbd4005c88c7ff70b958ac4
 
 susp_sex = 
   susp_df %>% 
@@ -128,21 +105,9 @@ susp_sex =
     y = "Number of people",
     title = "Total number of people in each sex group(Suspect)"
   ) 
-<<<<<<< HEAD
-
 
 susp_agexrace = 
   susp_df %>% 
-=======
-```
-
-Conclusion: In 2020, male have the highest crime rates for all types of offense events.
-
-### 4. Suspect-age x race plot (Total number of people in each age group with race(Suspect))
-
-```{r, message=FALSE}
-susp_df %>% 
->>>>>>> 486b069a7432d46d6cbd4005c88c7ff70b958ac4
   group_by(susp_age_group, susp_race) %>% 
   summarise(number_of_people = n()) %>% 
   filter(susp_age_group == "<18" | susp_age_group == "18-24" | susp_age_group == "25-44" | susp_age_group == "45-64" | susp_age_group == "65+") %>% 
@@ -155,18 +120,9 @@ susp_df %>%
     title = "Total number of people in each age group with race(Suspect)"
   )
 
-<<<<<<< HEAD
 
 susp_agexsex = 
   susp_df %>% 
-=======
-Conclusion: In 2020, persons from 25 to 44 with black race have the highest crime rates for all types of offense events, while those who age above 65 with race of native american have the lowest.
-
-### 5. Suspect-age x sex plot (Total number of people in each age group with sex(Suspect))
-
-```{r, message=FALSE}
-susp_df %>% 
->>>>>>> 486b069a7432d46d6cbd4005c88c7ff70b958ac4
   group_by(susp_age_group, susp_sex) %>% 
   summarise(number_of_people = n()) %>% 
   filter(susp_age_group == "<18" | susp_age_group == "18-24" | susp_age_group == "25-44" | susp_age_group == "45-64" | susp_age_group == "65+") %>% 
@@ -180,18 +136,8 @@ susp_df %>%
     title = "Total number of people in each age group with sex(Suspect)"
   )
 
-<<<<<<< HEAD
-
 susp_racexsex = 
   susp_df %>% 
-=======
-Conclusion: In 2020, male from 25 to 44 have the highest crime rates for all types of offense events, while female who age above 65 have the lowest.
-
-### 6. Suspect-race x age plot (Total number of people for each race with sex(Suspect))
-
-```{r, message=FALSE}
-susp_df %>% 
->>>>>>> 486b069a7432d46d6cbd4005c88c7ff70b958ac4
   group_by(susp_race, susp_sex) %>% 
   summarise(number_of_people = n()) %>%
   mutate(susp_race = factor(susp_race), 
@@ -208,7 +154,6 @@ susp_df %>%
   theme(
       axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0.5),
       legend.position = "none")
-<<<<<<< HEAD
 
 ```
 
@@ -250,30 +195,18 @@ susp_racexsex
 
 
 
-
-
-
-### Victim plot
-=======
-```
-
-Conclusion: In 2020, male with black race have the highest crime rates for all types of offense events, while female with the race of native american have the lowest.
-
-## Victim plot
->>>>>>> 486b069a7432d46d6cbd4005c88c7ff70b958ac4
-```{r}
+### Victim plot{.tabset}
+```{r, warning=FALSE, message=FALSE}
 vic_df = df20_tidy %>% 
   select(vic_age_group, vic_race, vic_sex) %>% 
   filter(!is.na(.)) %>% 
   filter(!(vic_age_group == "UNKNOWN"), !(vic_race == "UNKNOWN"), !(vic_sex == "UNKNOWN"), !(vic_sex == "U")) %>% 
   filter(vic_age_group == "<18" | vic_age_group == "18-24" | vic_age_group == "25-44" | vic_age_group == "45-64" | vic_age_group == "65+") %>% 
   filter(vic_sex == "F" | vic_sex == "M")
-```
 
-### 1. victim-age plot(Total number of people in each age group(Victim))
 
-```{r}
-vic_df %>% 
+vic_age =
+  vic_df %>% 
   group_by(vic_age_group) %>% 
   summarise(count = n()) %>% 
    ggplot(
@@ -284,20 +217,8 @@ vic_df %>%
     y = "Number of people",
     title = "Total number of people in each age group(Victim)"
   )
-```
-
-Conclusion: In 2020, persons between the ages of 25 and 44 have the highest victimization rates for all types of crime, while those age 65 or older have the lowest.
-
-<<<<<<< HEAD
-
-
-2. victim-race plot(Total number of people for each race(Victim))
-=======
-### 2. victim-race plot(Total number of people for each race(Victim))
->>>>>>> 486b069a7432d46d6cbd4005c88c7ff70b958ac4
-
-```{r}
-vic_df %>% 
+vic_race =
+  vic_df %>% 
   group_by(vic_race) %>% 
   summarise(count = n()) %>% 
   mutate(vic_race = factor(vic_race), 
@@ -313,20 +234,8 @@ vic_df %>%
   theme(
       axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0.5),
       legend.position = "none")
-```
-
-Conclusion: In 2020, persons with black race have the highest victimization rates for all types of crime, while native american have the lowest.
-
-<<<<<<< HEAD
-
-
-3. victim-sex plot(Total number of people in each sex group(Victim))
-=======
-### 3. victim-sex plot(Total number of people in each sex group(Victim))
->>>>>>> 486b069a7432d46d6cbd4005c88c7ff70b958ac4
-
-```{r}
-vic_df %>% 
+vic_sex =
+  vic_df %>% 
   group_by(vic_sex) %>% 
   summarise(count = n()) %>% 
   ggplot(
@@ -337,21 +246,8 @@ vic_df %>%
     y = "Number of people",
     title = "Total number of people in each sex group(Victim)"
   )
-```
-
-Conclusion: In 2020, female have the highest victimization rates for all types of crime, but the victimization rates of both gender are similar.
-<<<<<<< HEAD
-
-
-
-4. victim-age x race plot(Total number of people in each age group with race(Victim))
-=======
->>>>>>> 486b069a7432d46d6cbd4005c88c7ff70b958ac4
-
-### 4. victim-age x race plot(Total number of people in each age group with race(Victim))
-
-```{r, message=FALSE}
-vic_df %>% 
+vic_agexrace =
+  vic_df %>% 
   group_by(vic_age_group, vic_race) %>% 
   summarise(number_of_people = n()) %>%
   ggplot(
@@ -362,20 +258,8 @@ vic_df %>%
     y = "Number of people",
     title = "Total number of people in each age group with race(Victim)"
   )
-```
-
-Conclusion: In 2020, persons from 25 to 44 with black race have the highest victimization rates for all types of crime, while persons who younger than 18 with race of native american have the lowest.
-<<<<<<< HEAD
-
-
-5. victim-age x sex plot(Total number of people in each age group with sex(Victim))
-=======
->>>>>>> 486b069a7432d46d6cbd4005c88c7ff70b958ac4
-
-### 5. victim-age x sex plot(Total number of people in each age group with sex(Victim))
-
-```{r, message=FALSE}
-vic_df %>% 
+vic_agexsex =
+  vic_df %>% 
   group_by(vic_age_group, vic_sex) %>% 
   summarise(number_of_people = n()) %>% 
   ggplot(
@@ -387,21 +271,8 @@ vic_df %>%
     y = "Number of people",
     title = "Total number of people in each age group with sex(Victim)"
   )
-```
-
-Conclusion: In 2020, female from 25 to 44 have the highest victimization rates for all types of crime, while male who younger than 18 with race of native american have the lowest.
-<<<<<<< HEAD
-
-
-
-6. victim-race x age plot(Total number of people for each race with sex(Victim))
-=======
->>>>>>> 486b069a7432d46d6cbd4005c88c7ff70b958ac4
-
-### 6. victim-race x age plot(Total number of people for each race with sex(Victim))
-
-```{r, message=FALSE}
-vic_df %>% 
+vic_racexsex =
+  vic_df %>% 
   group_by(vic_race, vic_sex) %>% 
   summarise(number_of_people = n()) %>%
   ggplot(
@@ -418,17 +289,47 @@ vic_df %>%
       legend.position = "none")
 ```
 
-Conclusion: In 2020, female with black race have the highest victimization rates for all types of crime, while female with race of native american have the lowest.
 
-<<<<<<< HEAD
+#### Age
+```{r}
+vic_age
+```
 
 
-### Level of offense
-=======
-## Level of offense
->>>>>>> 486b069a7432d46d6cbd4005c88c7ff70b958ac4
+#### Race
+```{r}
+vic_race
+```
 
-```{r, message=FALSE}
+
+#### Sex
+```{r}
+vic_sex
+```
+
+
+#### Age x Race
+```{r}
+vic_agexrace
+```
+
+
+#### Age x Sex
+```{r}
+vic_agexsex
+```
+
+
+#### Race x Sex
+```{r}
+vic_racexsex
+```
+
+
+
+### Level of offense{.tabset}
+
+```{r, message=FALSE, warning=FALSE}
 level_of_offense_df = 
   df20_tidy %>% 
   select(month, day, year, level_of_offense, name_of_borough, susp_age_group, susp_race, susp_sex) %>% 
@@ -441,7 +342,7 @@ level_of_offense_df =
   filter(susp_age_group == "<18" | susp_age_group == "18-24" | susp_age_group == "25-44" | susp_age_group == "45-64" | susp_age_group == "65+")
 ```
 
-```{r, message=FALSE}
+```{r, message=FALSE, warning=FALSE}
 # 2020 level_of_offense by month,table and gif
 level_of_offense_df %>% 
   group_by(month, level_of_offense) %>% 
@@ -452,7 +353,7 @@ level_of_offense_df %>%
   knitr::kable()
 ```
 
-```{r, message=FALSE}
+```{r, message=FALSE, warning=FALSE}
 # Count of offense events in each month
 level_of_offense_df %>%
   mutate(level_of_offense = as.factor(level_of_offense),
@@ -474,17 +375,10 @@ level_of_offense_df %>%
   )
 ```
 
-Conclusion: From the gif related to the level of offense, we can see misdemeanor happen the most, while violation happen the least. In addition, January has the highest incidence of all types of crime, while April has the lowest incidence.
 
-<<<<<<< HEAD
-
-
-```{r}
-=======
-```{r, message=FALSE}
->>>>>>> 486b069a7432d46d6cbd4005c88c7ff70b958ac4
-# level_of_offense by district
-level_of_offense_df %>%
+```{r, message=FALSE, warning=FALSE}
+offense_borough = 
+  level_of_offense_df %>%
   group_by(name_of_borough, level_of_offense) %>% 
   summarise(count = n()) %>% 
   ggplot(aes(x = name_of_borough, y = count, color = level_of_offense, fill = level_of_offense)) + 
@@ -497,19 +391,10 @@ level_of_offense_df %>%
   theme(
       axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 0.5),
       legend.position = "none")
-```
-
-Conclusion: The borough of bronx, brooklyn, and manhattan have a similarly high crime rate of all three types of offense events. The staten island has the lowest rate of all three types of crimes.
-
-<<<<<<< HEAD
 
 
-```{r}
-=======
-```{r, message=FALSE}
->>>>>>> 486b069a7432d46d6cbd4005c88c7ff70b958ac4
-# level_of_offense by age
-level_of_offense_df %>%
+offense_age = 
+  level_of_offense_df %>%
   group_by(susp_age_group, level_of_offense) %>% 
   summarise(count = n()) %>% 
   ggplot(aes(x = susp_age_group, y = count, color = level_of_offense, fill = level_of_offense)) + 
@@ -519,19 +404,10 @@ level_of_offense_df %>%
     y = "Count",
     title = "Count of offense events for each age group"
   )
-```
-
-Conclusion: Persons between the ages of 25 to 44 have the highest crime rates for all types of offense events, while those age 65 or older have the lowest.
-
-<<<<<<< HEAD
 
 
-```{r}
-=======
-```{r, message=FALSE}
->>>>>>> 486b069a7432d46d6cbd4005c88c7ff70b958ac4
-# level_of_offense by race
-level_of_offense_df %>%
+offense_race = 
+  level_of_offense_df %>%
   group_by(susp_race, level_of_offense) %>% 
   summarise(count = n()) %>% 
   ggplot(aes(x = susp_race, y = count, color = level_of_offense, fill = level_of_offense)) + 
@@ -544,19 +420,10 @@ level_of_offense_df %>%
   theme(
       axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0.5),
       legend.position = "none")
-```
-
-Conclusion: Black race have the highest crime rates for all types of offense events, while native american have the lowest.
-
-<<<<<<< HEAD
 
 
-```{r}
-=======
-```{r, message=FALSE}
->>>>>>> 486b069a7432d46d6cbd4005c88c7ff70b958ac4
-# level_of_offense by sex
-level_of_offense_df %>%
+offense_sex = 
+  level_of_offense_df %>%
   group_by(susp_sex, level_of_offense) %>% 
   summarise(count = n()) %>% 
   ggplot(aes(x = susp_sex, y = count, color = level_of_offense, fill = level_of_offense)) + 
@@ -568,5 +435,26 @@ level_of_offense_df %>%
   )
 ```
 
-Conclusion: Male have the highest crime rates for all types of offense events.
 
+#### Borough
+```{r}
+offense_borough
+```
+
+
+#### Age
+```{r}
+offense_age
+```
+
+
+#### Race
+```{r}
+offense_race
+```
+
+
+#### Sex
+```{r}
+offense_sex
+```
