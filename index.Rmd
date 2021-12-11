@@ -33,4 +33,4 @@ We raised four questions to answer:
 
 3. For each day of a week, is the crime distribution of the five boroughs the same?
 
-4. Generally, which borough is the safest one among the five? Which one is the least safe?
+4. Generally, which borough is the safest one among the five?
