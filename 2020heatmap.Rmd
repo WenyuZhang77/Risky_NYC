@@ -85,5 +85,4 @@ NYPD_2020_weekdays %>%
   ) %>%
   colorbar(title = "2020", x = 1, y = 1) 
 ```
-
 conclusion
