@@ -13,6 +13,13 @@ The data was collected from NYC open data, which is about NYPD Complaint Data Hi
 
 Feel free to check the data in [NYC OpenData](https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i)
 
+
+
+## Data cleaning
+
+The data was first imported into R. This is a huge dataset which contains about 7.5 million rows, so we have to do some data cleaning before doing data analysis. After reading the data, we deleted some columns (variables) which include too many blank spaces, since we thought they were not helpful for our data analysis. Then, for the convenience of further data analysis, we divided the variable `cmplnt_fr_dt` (the exact date of occurrence for the reported case) into three variables: `year`, `month`, and `day`. Since this dataset is too large for a normal personal computer to run, we divided it into more than a dozen small datasets by year to speed up data processing. Our current data analysis is mostly based on 2020’s dataset, because it’s the latest year's data.
+
+
 ## Variables of interest
 While cleaning data, we mutated the original variables to variables which could be easily understood. Below are the mutated key variables.
 
@@ -40,7 +47,5 @@ While cleaning data, we mutated the original variables to variables which could 
 
 `vic_sex`: victim’s gender.
 
-## Data cleaning
 
-The data was first imported into R. This is a huge dataset which contains about 7.5 million rows, so we have to do some data cleaning before doing data analysis. After reading the data, we deleted some columns (variables) which include too many blank spaces, since we thought they were not helpful for our data analysis. Then, for the convenience of further data analysis, we divided the variable `cmplnt_fr_dt` (the exact date of occurrence for the reported case) into three variables: `year`, `month`, and `day`. Since this dataset is too large for a normal personal computer to run, we divided it into more than a dozen small datasets by year to speed up data processing. Our current data analysis is mostly based on 2020’s dataset, because it’s the latest year's data.
 
