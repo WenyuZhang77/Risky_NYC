@@ -3,8 +3,6 @@ output_dir: "."
 navbar:
   title: "Home"
   left:
-    - text: "Dashboard"
-      href: Shiny_Dashboard.html
     - text: 'Data'
       href: Data-resources.html
     - text: 'Data Analysis'
@@ -17,8 +15,6 @@ navbar:
       href: Plot.html
     - text: "Map"
       href: map.html
-    - text: "Time Line"
-      href: time-line.html
   right:
     - text: "Project Report"
       href: report.html
