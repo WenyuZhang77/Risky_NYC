@@ -30,6 +30,8 @@ output:
   html_document:
     code_folding: hide
     theme: flatly
+    toc : true
+    toc_float: true
 
     
 
