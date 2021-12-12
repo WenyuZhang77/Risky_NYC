@@ -1,7 +1,6 @@
 ---
 title: "Regression Analysis"
 author: "Wenyu Zhang"
-date: "12/9/2021"
 output: 
   html_document:
     toc: true
