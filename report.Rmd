@@ -11,8 +11,15 @@ output:
 
 This project is motivated by recent crime news in New York City we’ve read. In the 1980s, New York was one of the most crime-ridden cities in the United States. From the 1990s to the 2010s, the crime rate of NYC dropped sharply, which gave NYC one of the lowest crime rates of major cities in the Unites States. However, robberies, harassments, dangerous weapons… crimes are still happening around us all the time. As brand-new residents of NYC, the main purpose of this project is to explore the security situation and stability of this city. In addition, analyzing crime data from NYPD might raise the safety awareness of the victim population as well as other citizens and visitors, thus they can avoid high-crime areas. More importantly, our project could also provide housing and daily travel advice to freshmen and tourists.
 
-## Questions
+## Initial Questions
 
+1. Is there any correlation between level of offensive and age, time, borough, race, or gender?
+
+2. Is the difference among crime distribution of the five boroughs statistically significant?
+
+3. For each day of a week, is the crime distribution of the five boroughs the same?
+
+4. Generally, which borough is the safest one among the five?
 
 ## Data
 
@@ -24,9 +31,161 @@ The data was collected from [NYC open data](https://data.cityofnewyork.us/Public
 
 The data was first imported into R. This is a huge dataset which contains about 7.5 million rows, so we have to do some data cleaning before doing data analysis. After reading the data, we deleted some columns (variables) which include too many blank spaces, since we thought they were not helpful for our data analysis. Then, for the convenience of further data analysis, we divided the variable `cmplnt_fr_dt` (the exact date of occurrence for the reported case) into three variables: `year`, `month`, and `day`. Since this dataset is too large for a normal personal computer to run, we divided it into more than a dozen small datasets by year to speed up data processing. Our current data analysis is mostly based on 2020’s dataset, because it’s the latest year's data.
 
+### Variables of interest
+
+While cleaning data, we mutated the original variables to variables which could be easily understood. Below are the mutated key variables.
+
+`month`
+
+`day`
+
+`exact_crime_time`: the exact time of occurrence for the reported crime.
+
+`description_of_crime`
+
+`level_of_offence`: felony, misdemeanor, or violation.
+
+`name_of_borough`: Bronx, Brooklyn, Manhattan, Queens, and Staten Island.
+
+`susp_age_group`: suspect’s age group.
+
+`susp_race`: suspect’s race.
+
+`susp_sex`: suspect’s gender.
+
+`vic_age_group`: victim’s age group.
+
+`vic_race`: victim’s race.
+
+`vic_sex`: victim’s gender.
+
 ## Exploratory analysis
 
+###Data Explanation
+
+Our data is the NYPD Complaint history from 2006 to 2020. Since the original data is super large, I choose the data from the whole year of 2020, which is the latest. In addition, the first case of COVID-19 in New York during the pandemic was confirmed on March 1 of 2020, and the city quickly became an epicenter of the pandemic. Using the data from 2020, not only can we analyze the recent state of social security in New York City, but we can also find out the impact of the COVID-19 pandemic on crime rates in New York City.
+
+I analyzed the crime situation in New York City in three main aspects: suspects, victims, and the level of offense. I counted the number of suspects and victims of each type, as well as the number of cases of each type of offense, so that I could find out the distributions of those three aspects. Below is my detailed analysis.
+
+Suspect: In 2020, for factor of age, the group of 25-44 had most people, and 65+ had the fewest people. For factor of race, the group of black race had most people, and American Indian/Alaskan Native had the fewest people. For factor of sex, the number of male is extremely higher than female.
+
+By the interaction of 3 factors of suspects: age, race, sex, persons whose age were between the ages of 25 to 44, race of Black, and Male have the highest count(number of people) for all types of offense events. While those age were 65 or Older, the race of Native American(American Indian/Alaskan Native), and Female have the lowest count.
+
+Victim: In 2020, for factor of age, the group of 25-44 had most people, and 18- had the fewest people. For factor of race, the group of black race had most people, and American Indian/Alaskan Native had the fewest people. For factor of sex, the number of female is slightly higher than male.
+
+By the interaction of 3 factors of victims: age, race, sex, persons whose age were between the ages of 25 to 44, race of Black commit to the highest count(number of people) for all types of offense events. While those age were 18 or younger, the race of Native American(American Indian/Alaskan Native) have the lowest count. And we might to say that both male and female have the similar victimization rates.
+
+Level of offense: Misdemeanor happen the most, while violation happen the least. In addition, January has the highest incidence of all types of crime, while April has the lowest incidence.
+
+We can guess that January is close to some major holidays like Christmas and New Year. From April of 2020, we can see how COVID-19 impact the New York City. Since the first case of COVID-19 in the US, state of New York during the pandemic was confirmed on March 1 of 2020. By March 29, over 30,000 cases were confirmed, and New York City had become the worst-affected area in the United States. Starting March 16, New York City schools were closed. On late March, the New York State governor’s office issued an executive order closing “non-essential” businesses. The city’s public transportation system remained open, but service was substantially reduced. By April, hundreds of thousands of people in NYC were out of work and had to stay at home. Therefore, the number of crime events dramatically decreased.
+
+In 2020, number of Misdemeanor occurrences was always the highest, felony was the second highest, and violation was the fewest. By the factor of borough, Bronx, Brooklyn, and Manhattan committed the most and similar occurrences, the count of Queens was lower than those three boroughs, and the count of the staten island was the fewest. For the factor of age, the group of 25-44 had most occurrences, and 65+ had the fewest. For factor of race, the group of black race had most occurrences, and American Indian/Alaskan Native had the fewest occurrences. For factor of sex, the number of male is extremely higher than female.
 
 ## Additional analysis
 
+### Chi-square
+
+* Chi-squared test to test suspect gender and level of offense.
+
+H0: there is no association between level of offense and suspect’s gender
+
+H1: there is association between level of offense and suspect’s gender
+
+At significance level 0.05, since p-value < 2.2e-16 < 0.05,we reject the null hypothesis and conclude that there is association between level of offense and suspect’s gender.
+
+* Chi-squared test to test suspect race and level of offense.
+
+H0:there is no association between level of offense and suspect’s race
+
+H1:there is association between level of offense and suspect’s race
+
+At significance level 0.05, since p-value < 2.2e-16 < 0.05,we reject the null hypothesis and conclude that there is association between level of offense and suspect’s race.
+
+* Chi-squared test to test suspect age group and level of offense.
+
+H0: there is no association between level of offense and suspect’s age group
+
+H1: there is association between level of offense and suspect’s age group
+
+At significance level 0.05, since p-value < 2.2e-16 < 0.05,we reject the null hypothesis and conclude that there is association between level of offense and suspect’s age group.
+
+After doing the chi-square to the relationship between suspect age group,suspect gender, suspect race and their level of offense, we could conclude that there do exist relationships, and the relationships are significant. It suggests further regression analysis could be done to describe the specific relationship between suspect age group,suspect gender, suspect race and their level of offense.
+
+### Anova
+
+We want to do ANOVA test for different borough comparison.
+
+H0: there is no difference of crime number amount means between different boroughs.
+
+H1: at least two crime number amount means of boroughs are not equal.
+
+Based on the result of ANOVA test, we reject the Null hypothesis at 99% confidence level and conclude that there’s at least two crime number amount means of boroughs are not equal.
+
+We use Tukey test for pairwise comparison. We notice the p adj for QUEENS-BRONX is 0.3851984, which means their mean values of crime number is very close to each other. Except for QUEENS-BRONX, we discovered that practically all pairs of boroughs have distinct mean crime number amounts since p adj values for the Tukey test are equal to 0. We are 99 percent certain that the crime rate in BROOKLYN differs from that in other administrative regions. BROOKLYN has the highest crime rate when compared to other administrative regions. When we’re in Brooklyn, we might want to be cautious.
+
+### Regression
+
+* Summary Model
+
+When there are more than two outcome categories with an order, proportional odds logistic regression can be utilized. The assumption that no input variable has a disproportionate influence on a certain level of the output variable is a key underlying assumption (McNulty,2021). Since our response variable is level of offense, which contains FELONY, MISDEMEANOR, and VIOLATION, it satisfies “more than two outcome categories (we have 3) with an order (felony is the most severe crime whereas violation is the minor offense)”. Hence, we use proportional odds logistic regression
+
+* Interpretation
+
+Male suspect have approximately 87% higher odds of greater level of offense compared to Female suspect.
+
+Suspect who in age group 18-24 have the highest odds ratio among all age groups, that is approximately 29% higher odds of greater level of offense compared to suspect under age 18.
+
+Suspect who are black hispanic have the highest odds ratio among all race groups, that is approximately 86.69% higher odds of greater level of offense compared to suspect that are American Indian/Alaskan native.
+
+The borough Manhattan have the highest odds ratio among all boroughs, that is approximately 19.69% higher odds of greater level of offense compared to Bronx.
+
+* Why not use simple linear regression?
+
+Simple linear regression is Analysis with Continuous Dependent Variables. However, since all of our variable are categorical, it is not our best choice. If we treat the outcome as a continuous variable and perform simple linear regression, we might get radically erroneous results. In common with linear regression, we can consider our outcome to increase or decrease dependent on our inputs. However, unlike linear regression the increase and decrease is ‘stepwise’ rather than continuous, and we do not know that the difference between the steps is the same across the scale (McNulty,2021). In our case, the difference between VIOLATION and MISDEMEANOR and the difference between MISDEMEANOR and FELONY may not be equivalent.
+
+* Reference
+
+McNulty, K. (2021). Handbook of Regression Modeling in People Analytics: With Examples in R and Python. Retrieved 10 December 2021, from https://peopleanalytics-regression-book.org/ord-reg.html
+
+
+### Maps
+
+* 2020 Crime Occurrences Cluster Sum
+
+We got five clusters and the largest cluster included 302257 cases. The data for this cluster were mainly from Manhattan, Brooklyn and Bronx. In comparison, Staten Island has the least number of cases. These data are consistent with the previous conclusions we got in the data analysis section. If we continued to explore and select the largest clusters we found that most of these cases occurred in Brooklyn and Bronx.
+
+* 2020 Crime Location Map by Month
+
+In the above analysis we mainly considered the total number of cases in different regions in 2020. But consider that 2020 is a special year. In this year there was an Covid-19 outbreak, so the active population in all areas of New York City will be reduced for a long time in between. Therefore we wanted to focus on whether the number of cases in each month of the 12 months in 2020 would be different. We therefore looked at the distribution of cases for each month by means of a scatter plot, and we eventually found that there was a significant decrease in the number of cases in April compared to the other months.
+
+* 2020 Daily Crime Count
+
+Considering that observing the distribution of cases did not directly yield the change in the number of cases per day in 2020, we used a new gif line plot to show the change in number. We found a significant decrease in the number of cases per day around April. In contrast, there was a significant increase in the number of cases per day around June, which may be related to the outbreak and mitigation of Covid-19. We can also saw that the number of cases in April 2020 was indeed significantly lower compared to the previous four years.
+
+* 2020 Crime Frequency
+
+In addition, we are also interested in whether there is a significant difference in the number of cases occurring at different times of the day, and whether there is a significant difference in the number of cases occurring only on each day of the week. For this purpose we show a heat map of the number of cases in 2020 using a heat map, where darker colors represent a larger number of cases. We can clearly see that there is a clear darker area at 12:00 noon and around 5:00 pm on weekdays. This may be due to the increase in mobile population during lunch time and after work hours. And number of cases decreases significantly after 12:00 am, which may be related to the decrease of mobile population.
+
 ## Discussion
+
+Our data analysis (Chi-square, ANOVA, regression) gives us a general idea about location, time periods, and vulnerable groups.
+
+* Location
+
+From our results, we found that Brooklyn has the most number of crime complaints in 2020. At the same time, Staten Island has the least number of crime complaints in 2020. We can conclude that Brooklyn is the borough that occurred the most crimes, while Staten Island is the fewest.
+
+* Time period
+
+From our map results, we can see that there was a significant decrease in the number of cases in April 2020 compared to the other months, and a significant increase between June and July 2020. We think this dramatic change is because of COVID-19. COVID-19 was severe during April, and went down a little bit during June and July. In this case, we cannot use 2020's month data to predict future crime distribution.
+
+We can clearly see from the heatmap that there is a clear darker area at 12:00 noon and around 5:00 pm on weekdays. This may be due to the increase in mobile population during lunch time and after work hours. And number of cases decreases significantly after 12:00 am, which may be related to the decrease of mobile population.
+
+* Vulnerable group
+
+By the interaction of 3 factors of victims: age, race, sex, persons whose age were between the ages of 25 to 44, race of Black commit to the highest count(number of people) for all types of offense events. While those age were 18 or younger, the race of Native American(American Indian/Alaskan Native) have the lowest count. And we might to say that both male and female have the similar victimization rates.
+
+* Limitations
+
+Our study has some limitations. First, we didn't take consideration of each borough's density. For example, we know that Brooklyn has the highest crime complaint number in 2020. However, Brooklyn is also the second large borough in NYC. If we can calculate crime complaint by borough density, we might get different results.
+
+Moreover, we only analyzed 2020's dataset. If we could analyze data before 2020, we might get different trends on crime complaints.
