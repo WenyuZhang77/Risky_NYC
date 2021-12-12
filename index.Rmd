@@ -29,6 +29,8 @@ Finally, our project also could provide housing and daily travel advice to our c
 
 ![](images/5_Boroughs_Labels_New_York_City_Map.svg)
 
+
+
 ## Questions
 We raised four questions to answer:
 
@@ -39,3 +41,21 @@ We raised four questions to answer:
 3. For each day of a week, is the crime distribution of the five boroughs the same?
 
 4. Generally, which borough is the safest one among the five?
+
+
+
+## About us
+
+We are all Chinese students and studying in Biostatistics MS program in Columbia University Mailman School of Public Health.
+
+### Link to our personal website
+
+[Shiwei Chen](https://gic94.github.io/)
+
+[Shiyin Li](https://shiyin-li-fiona.github.io/p8150_sl5010.github.io/)
+
+[Weize Sun](https://ws2646.github.io/)
+
+[Wenyu Zhang](https://wenyuzhang77.github.io)
+
+[Yiming Li](https://chongchongknight.github.io/)

@@ -14,8 +14,8 @@
 
 <title>Hypothesis Test</title>
 
-<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -325,9 +325,6 @@ div.tocify {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="Shiny_Dashboard.html">Dashboard</a>
-</li>
-<li>
   <a href="Data-resources.html">Data</a>
 </li>
 <li class="dropdown">
@@ -346,18 +343,15 @@ div.tocify {
   </ul>
 </li>
 <li>
-  <a href="Plot.html">Plot</a>
+  <a href="Plot.html">Visualization</a>
 </li>
 <li>
   <a href="map.html">Map</a>
 </li>
-<li>
-  <a href="time-line.html">Time Line</a>
-</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="about.html">About US</a>
+  <a href="report.html">Project Report</a>
 </li>
 <li>
   <a href="mailto:&lt;wz2591@cumc.columbia.edu&gt;">
@@ -368,6 +362,12 @@ div.tocify {
 <li>
   <a href="https://github.com/WenyuZhang77/Risky_NYC">
     <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://nypdonline.org/link/1017">
+    <span class="fa fa-ambulance fa-lg"></span>
      
   </a>
 </li>
@@ -562,6 +562,7 @@ div.tocify {
 ## X-squared = 2763.4, df = 8, p-value &lt; 2.2e-16</code></pre>
 <p>Conclusion:</p>
 <p>At significance level 0.05, since p-value &lt; 2.2e-16 &lt; 0.05,we reject the null hypothesis and conclude that there is association between level of offense and suspect’s age group.</p>
+<p>After doing the chi-square to the relationship between suspect age group,suspect gender, suspect race and their level of offense, we could conclude that there do exist relationships, and the relationships are significant. It suggests further regression analysis could be done to describe the specific relationship between suspect age group,suspect gender, suspect race and their level of offense.</p>
 </div>
 </div>
 <div id="anova-test" class="section level2">
@@ -710,7 +711,7 @@ div.tocify {
 </tbody>
 </table>
 <p>Based on the result of ANOVA test, we reject the Null hypothesis at 99% confidence level and conclude that there’s at least two crime number amount means of boroughs are not equal.</p>
-<p>We use Tukey test for pairwise comparison. We notice the p adj for QUEENS-BRONX is 0.3851984, which means their mean values of crime number is very close to each other.</p>
+<p>We use Tukey test for pairwise comparison. We notice the p adj for QUEENS-BRONX is 0.3851984, which means their mean values of crime number is very close to each other. Except for QUEENS-BRONX, we discovered that practically all pairs of boroughs have distinct mean crime number amounts since p adj values for the Tukey test are equal to 0. We are 99 percent certain that the crime rate in BROOKLYN differs from that in other administrative regions. BROOKLYN has the highest crime rate when compared to other administrative regions. When we’re in Brooklyn, we might want to be cautious.</p>
 </div>
 
 
