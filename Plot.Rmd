@@ -1,6 +1,6 @@
 ---
-title: "Plot"
-author: "Shiwei Chen"
+title: "Exploratory Analysis"
+author: "Shiwei(Jessica) Chen"
 output: 
   html_document:
     toc: true
@@ -48,6 +48,9 @@ df20_tidy =
 
 
 ## Data Explanation
+Our data is the NYPD Complaint history from 2006 to 2020. Since the original data is super large, I choose the data from the whole year of 2020, which is the latest. In addition, the first case of COVID-19 in New York during the pandemic was confirmed on March 1 of 2020, and the city quickly became an epicenter of the pandemic. Using the data from 2020, not only can we analyze the recent state of social security in New York City, but we can also find out the impact of the COVID-19 pandemic on crime rates in New York City. 
+
+I analyzed the crime situation in New York City in three main aspects: suspects, victims, and the level of offense. I counted the number of suspects and victims of each type, as well as the number of cases of each type of offense, so that I could find out the distributions of those three aspects. Below is my detailed analysis.
 
 
 
@@ -76,7 +79,8 @@ susp_age =
     x = "Age group",
     y = "Number of people",
     title = "Total number of people in each age group(Suspect)"
-  )
+  ) +
+  theme(legend.position = "right")
 
 
 susp_race =
@@ -95,7 +99,7 @@ susp_race =
   ) +
   theme(
       axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0.5),
-      legend.position = "none")
+      legend.position = "right")
 
 susp_sex = 
   susp_df %>% 
@@ -108,7 +112,8 @@ susp_sex =
     x = "Sex",
     y = "Number of people",
     title = "Total number of people in each sex group(Suspect)"
-  ) 
+  ) +
+  theme(legend.position = "right")
 
 susp_agexrace = 
   susp_df %>% 
@@ -122,7 +127,8 @@ susp_agexrace =
     x = "Age group",
     y = "Number of people",
     title = "Total number of people in each age group with race(Suspect)"
-  )
+  ) +
+  theme(legend.position = "right")
 
 
 susp_agexsex = 
@@ -138,7 +144,8 @@ susp_agexsex =
     x = "Age group",
     y = "Number of people",
     title = "Total number of people in each age group with sex(Suspect)"
-  )
+  ) +
+  theme(legend.position = "right")
 
 susp_racexsex = 
   susp_df %>% 
@@ -157,7 +164,7 @@ susp_racexsex =
   ) +
   theme(
       axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0.5),
-      legend.position = "none")
+      legend.position = "right")
 
 ```
 
@@ -168,10 +175,24 @@ susp_age
 ```
 
 
+Conclusion for Suspect plot:
+
+We can see from the plots of suspects. In 2020, for factor of age, the group of 25-44 had most people, and 65+ had the fewest people. For factor of race, the group of black race had most people, and American Indian/Alaskan Native had the fewest people. For factor of sex, the number of male is extremely higher than female.
+
+By the interaction of 3 factors of suspects: age, race, sex, persons whose age were between the ages of 25 to 44, race of Black, and Male have the highest count(number of people) for all types of offense events. While those age were 65 or Older, the race of Native American(American Indian/Alaskan Native), and Female have the lowest count.
+
+
 #### Race
 ```{r}
 susp_race
 ```
+
+
+Conclusion for Suspect plot:
+
+We can see from the plots of suspects. In 2020, for factor of age, the group of 25-44 had most people, and 65+ had the fewest people. For factor of race, the group of black race had most people, and American Indian/Alaskan Native had the fewest people. For factor of sex, the number of male is extremely higher than female.
+
+By the interaction of 3 factors of suspects: age, race, sex, persons whose age were between the ages of 25 to 44, race of Black, and Male have the highest count(number of people) for all types of offense events. While those age were 65 or Older, the race of Native American(American Indian/Alaskan Native), and Female have the lowest count.
 
 
 #### Sex
@@ -180,10 +201,24 @@ susp_sex
 ```
 
 
+Conclusion for Suspect plot:
+
+We can see from the plots of suspects. In 2020, for factor of age, the group of 25-44 had most people, and 65+ had the fewest people. For factor of race, the group of black race had most people, and American Indian/Alaskan Native had the fewest people. For factor of sex, the number of male is extremely higher than female.
+
+By the interaction of 3 factors of suspects: age, race, sex, persons whose age were between the ages of 25 to 44, race of Black, and Male have the highest count(number of people) for all types of offense events. While those age were 65 or Older, the race of Native American(American Indian/Alaskan Native), and Female have the lowest count.
+
+
 #### Age x Race
 ```{r}
 susp_agexrace
 ```
+
+
+Conclusion for Suspect plot:
+
+We can see from the plots of suspects. In 2020, for factor of age, the group of 25-44 had most people, and 65+ had the fewest people. For factor of race, the group of black race had most people, and American Indian/Alaskan Native had the fewest people. For factor of sex, the number of male is extremely higher than female.
+
+By the interaction of 3 factors of suspects: age, race, sex, persons whose age were between the ages of 25 to 44, race of Black, and Male have the highest count(number of people) for all types of offense events. While those age were 65 or Older, the race of Native American(American Indian/Alaskan Native), and Female have the lowest count.
 
 
 #### Age x Sex
@@ -192,10 +227,24 @@ susp_agexsex
 ```
 
 
+Conclusion for Suspect plot:
+
+We can see from the plots of suspects. In 2020, for factor of age, the group of 25-44 had most people, and 65+ had the fewest people. For factor of race, the group of black race had most people, and American Indian/Alaskan Native had the fewest people. For factor of sex, the number of male is extremely higher than female.
+
+By the interaction of 3 factors of suspects: age, race, sex, persons whose age were between the ages of 25 to 44, race of Black, and Male have the highest count(number of people) for all types of offense events. While those age were 65 or Older, the race of Native American(American Indian/Alaskan Native), and Female have the lowest count.
+
+
 #### Race x Sex
 ```{r}
 susp_racexsex
 ```
+
+
+Conclusion for Suspect plot:
+
+We can see from the plots of suspects. In 2020, for factor of age, the group of 25-44 had most people, and 65+ had the fewest people. For factor of race, the group of black race had most people, and American Indian/Alaskan Native had the fewest people. For factor of sex, the number of male is extremely higher than female.
+
+By the interaction of 3 factors of suspects: age, race, sex, persons whose age were between the ages of 25 to 44, race of Black, and Male have the highest count(number of people) for all types of offense events. While those age were 65 or Older, the race of Native American(American Indian/Alaskan Native), and Female have the lowest count. 
 
 
 
@@ -220,7 +269,8 @@ vic_age =
     x = "Age group",
     y = "Number of people",
     title = "Total number of people in each age group(Victim)"
-  )
+  ) +
+  theme(legend.position = "right")
 vic_race =
   vic_df %>% 
   group_by(vic_race) %>% 
@@ -237,7 +287,7 @@ vic_race =
   ) +
   theme(
       axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0.5),
-      legend.position = "none")
+      legend.position = "right")
 vic_sex =
   vic_df %>% 
   group_by(vic_sex) %>% 
@@ -249,7 +299,8 @@ vic_sex =
     x = "Sex",
     y = "Number of people",
     title = "Total number of people in each sex group(Victim)"
-  )
+  ) +
+  theme(legend.position = "right")
 vic_agexrace =
   vic_df %>% 
   group_by(vic_age_group, vic_race) %>% 
@@ -261,7 +312,8 @@ vic_agexrace =
     x = "Age group",
     y = "Number of people",
     title = "Total number of people in each age group with race(Victim)"
-  )
+  ) +
+  theme(legend.position = "right")
 vic_agexsex =
   vic_df %>% 
   group_by(vic_age_group, vic_sex) %>% 
@@ -274,7 +326,8 @@ vic_agexsex =
     x = "Age group",
     y = "Number of people",
     title = "Total number of people in each age group with sex(Victim)"
-  )
+  ) +
+  theme(legend.position = "right")
 vic_racexsex =
   vic_df %>% 
   group_by(vic_race, vic_sex) %>% 
@@ -290,7 +343,7 @@ vic_racexsex =
   ) +
   theme(
       axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0.5),
-      legend.position = "none")
+      legend.position = "right")
 ```
 
 
@@ -300,10 +353,24 @@ vic_age
 ```
 
 
+Conclusion for Victim plot:
+
+We can see from the plots of victims. In 2020, for factor of age, the group of 25-44 had most people, and 18- had the fewest people. For factor of race, the group of black race had most people, and American Indian/Alaskan Native had the fewest people. For factor of sex, the number of female is slightly higher than male.
+
+By the interaction of 3 factors of victims: age, race, sex, persons whose age were between the ages of 25 to 44, race of Black commit to the highest count(number of people) for all types of offense events. While those age were 18 or younger, the race of Native American(American Indian/Alaskan Native) have the lowest count. And we might to say that both male and female have the similar victimization rates.
+
+
 #### Race
 ```{r}
 vic_race
 ```
+
+
+Conclusion for Victim plot:
+
+We can see from the plots of victims. In 2020, for factor of age, the group of 25-44 had most people, and 18- had the fewest people. For factor of race, the group of black race had most people, and American Indian/Alaskan Native had the fewest people. For factor of sex, the number of female is slightly higher than male.
+
+By the interaction of 3 factors of victims: age, race, sex, persons whose age were between the ages of 25 to 44, race of Black commit to the highest count(number of people) for all types of offense events. While those age were 18 or younger, the race of Native American(American Indian/Alaskan Native) have the lowest count. And we might to say that both male and female have the similar victimization rates.
 
 
 #### Sex
@@ -312,10 +379,24 @@ vic_sex
 ```
 
 
+Conclusion for Victim plot:
+
+We can see from the plots of victims. In 2020, for factor of age, the group of 25-44 had most people, and 18- had the fewest people. For factor of race, the group of black race had most people, and American Indian/Alaskan Native had the fewest people. For factor of sex, the number of female is slightly higher than male.
+
+By the interaction of 3 factors of victims: age, race, sex, persons whose age were between the ages of 25 to 44, race of Black commit to the highest count(number of people) for all types of offense events. While those age were 18 or younger, the race of Native American(American Indian/Alaskan Native) have the lowest count. And we might to say that both male and female have the similar victimization rates.
+
+
 #### Age x Race
 ```{r}
 vic_agexrace
 ```
+
+
+Conclusion for Victim plot:
+
+We can see from the plots of victims. In 2020, for factor of age, the group of 25-44 had most people, and 18- had the fewest people. For factor of race, the group of black race had most people, and American Indian/Alaskan Native had the fewest people. For factor of sex, the number of female is slightly higher than male.
+
+By the interaction of 3 factors of victims: age, race, sex, persons whose age were between the ages of 25 to 44, race of Black commit to the highest count(number of people) for all types of offense events. While those age were 18 or younger, the race of Native American(American Indian/Alaskan Native) have the lowest count. And we might to say that both male and female have the similar victimization rates.
 
 
 #### Age x Sex
@@ -324,10 +405,24 @@ vic_agexsex
 ```
 
 
+Conclusion for Victim plot:
+
+We can see from the plots of victims. In 2020, for factor of age, the group of 25-44 had most people, and 18- had the fewest people. For factor of race, the group of black race had most people, and American Indian/Alaskan Native had the fewest people. For factor of sex, the number of female is slightly higher than male.
+
+By the interaction of 3 factors of victims: age, race, sex, persons whose age were between the ages of 25 to 44, race of Black commit to the highest count(number of people) for all types of offense events. While those age were 18 or younger, the race of Native American(American Indian/Alaskan Native) have the lowest count. And we might to say that both male and female have the similar victimization rates.
+
+
 #### Race x Sex
 ```{r}
 vic_racexsex
 ```
+
+
+Conclusion for Victim plot:
+
+We can see from the plots of victims. In 2020, for factor of age, the group of 25-44 had most people, and 18- had the fewest people. For factor of race, the group of black race had most people, and American Indian/Alaskan Native had the fewest people. For factor of sex, the number of female is slightly higher than male.
+
+By the interaction of 3 factors of victims: age, race, sex, persons whose age were between the ages of 25 to 44, race of Black commit to the highest count(number of people) for all types of offense events. While those age were 18 or younger, the race of Native American(American Indian/Alaskan Native) have the lowest count. And we might to say that both male and female have the similar victimization rates.
 
 
 
@@ -347,7 +442,7 @@ level_of_offense_df =
 ```
 
 ```{r, message=FALSE, warning=FALSE}
-# 2020 level_of_offense by month,table and gif
+# Count of offense events in each month
 level_of_offense_df %>% 
   group_by(month, level_of_offense) %>% 
   summarise(total_activity = n()) %>% 
@@ -355,10 +450,8 @@ level_of_offense_df %>%
   names_from = "month", 
   values_from = "total_activity") %>% 
   knitr::kable()
-```
 
-```{r, message=FALSE, warning=FALSE}
-# Count of offense events in each month
+# 2020 level_of_offense by month,table and gif
 level_of_offense_df %>%
   mutate(level_of_offense = as.factor(level_of_offense),
          month = as.integer(month)) %>% 
@@ -380,6 +473,17 @@ level_of_offense_df %>%
 ```
 
 
+
+
+
+Conclusion for GIF of Level of offense: 
+
+From the GIF related to the level of offense, we can see misdemeanor happen the most, while violation happen the least. In addition, January has the highest incidence of all types of crime, while April has the lowest incidence.
+
+We can guess that January is close to some major holidays like Christmas and New Year. From April of 2020, we can see how COVID-19 impact the New York City. Since the first case of COVID-19 in the US, state of New York during the pandemic was confirmed on March 1 of 2020. By March 29, over 30,000 cases were confirmed, and New York City had become the worst-affected area in the United States. Starting March 16, New York City schools were closed. On late March, the New York State governor's office issued an executive order closing "non-essential" businesses. The city's public transportation system remained open, but service was substantially reduced. By April, hundreds of thousands of people in NYC were out of work and had to stay at home. Therefore, the number of crime events dramatically decreased.
+
+
+
 ```{r, message=FALSE, warning=FALSE}
 offense_borough = 
   level_of_offense_df %>%
@@ -394,7 +498,7 @@ offense_borough =
   ) +
   theme(
       axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 0.5),
-      legend.position = "none")
+      legend.position = "right")
 
 
 offense_age = 
@@ -407,7 +511,8 @@ offense_age =
     x = "Age group",
     y = "Count",
     title = "Count of offense events for each age group"
-  )
+  )  +
+  theme(legend.position = "right")
 
 
 offense_race = 
@@ -423,7 +528,7 @@ offense_race =
   ) +
   theme(
       axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0.5),
-      legend.position = "none")
+      legend.position = "right")
 
 
 offense_sex = 
@@ -436,7 +541,8 @@ offense_sex =
     x = "Sex",
     y = "Count",
     title = "Count of offense events by sex"
-  )
+  ) +
+  theme(legend.position = "right")
 ```
 
 
@@ -446,10 +552,20 @@ offense_borough
 ```
 
 
+Conclusion for Level of offense:
+
+In 2020, number of Misdemeanor occurrences was always the highest, felony was the second highest, and violation was the fewest. By the factor of borough, Bronx, Brooklyn, and Manhattan committed the most and similar occurrences, the count of Queens was lower than those three boroughs, and the count of the staten island was the fewest. For the factor of age, the group of 25-44 had most occurrences, and 65+ had the fewest. For factor of race, the group of black race had most occurrences, and American Indian/Alaskan Native had the fewest occurrences. For factor of sex, the number of male is extremely higher than female.
+
+
 #### Age
 ```{r}
 offense_age
 ```
+
+
+Conclusion for Level of offense:
+
+In 2020, number of Misdemeanor occurrences was always the highest, felony was the second highest, and violation was the fewest. By the factor of borough, Bronx, Brooklyn, and Manhattan committed the most and similar occurrences, the count of Queens was lower than those three boroughs, and the count of the staten island was the fewest. For the factor of age, the group of 25-44 had most occurrences, and 65+ had the fewest. For factor of race, the group of black race had most occurrences, and American Indian/Alaskan Native had the fewest occurrences. For factor of sex, the number of male is extremely higher than female.
 
 
 #### Race
@@ -458,7 +574,17 @@ offense_race
 ```
 
 
+Conclusion for Level of offense:
+
+In 2020, number of Misdemeanor occurrences was always the highest, felony was the second highest, and violation was the fewest. By the factor of borough, Bronx, Brooklyn, and Manhattan committed the most and similar occurrences, the count of Queens was lower than those three boroughs, and the count of the staten island was the fewest. For the factor of age, the group of 25-44 had most occurrences, and 65+ had the fewest. For factor of race, the group of black race had most occurrences, and American Indian/Alaskan Native had the fewest occurrences. For factor of sex, the number of male is extremely higher than female.
+
+
 #### Sex
 ```{r}
 offense_sex
 ```
+
+
+Conclusion for Level of offense:
+
+In 2020, number of Misdemeanor occurrences was always the highest, felony was the second highest, and violation was the fewest. By the factor of borough, Bronx, Brooklyn, and Manhattan committed the most and similar occurrences, the count of Queens was lower than those three boroughs, and the count of the staten island was the fewest. For the factor of age, the group of 25-44 had most occurrences, and 65+ had the fewest. For factor of race, the group of black race had most occurrences, and American Indian/Alaskan Native had the fewest occurrences. For factor of sex, the number of male is extremely higher than female.
